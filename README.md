@@ -60,6 +60,27 @@ going to be using the `babel-node` command. This was installed when we
 installed the Babel CLI. If you're able to type in `babel-node` without any
 errors you're ready to move on to the next lesson!
 
+In order to use all of the ES2015 features available to use, we're going to
+need to install the ES2015 presets module. I would recommend creating a
+directory somewhere so that we can install the preset module and be able
+to access it in our code samples and when loading the `babel-node` REPL. So
+go ahead and create that directory and `cd` into it and install the ES2015
+presets module:
+
+```bash
+$ npm install babel-preset-es2015
+```
+
+Now, any time you would like to play around with code in the REPL, simply
+type:
+
+```bash
+$ babel-node --presets es2015
+```
+
+From within the directory that you installed the module, and you will be good
+to go!
+
 ## Next Lesson
 
 Now that we've installed everything we need we can move on to actually
