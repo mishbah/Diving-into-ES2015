@@ -1,66 +1,134 @@
-# Lesson 1.2 - Tools of the Trade
+# Lesson 2.1 - Destructuring Assignment
 
-## Text Editor
+ES2015 comes with a brand new way to assign variables when dealing with arrays
+and objects. This new feature is called `destructuring assignment` and it
+allows you to easily assign variables from array elements or key/value pairs
+for an object. Let's dive right in shall we?
 
-You're going to need a basic text editor for this course to follow along with
-some of the code samples. These days I prefer Vim, but there are a lot of
-great choices out there:
+## Array Matching
 
-  * [Atom](https://atom.io/) - A great free choice built by GitHub
-  * [Sublime Text](https://www.sublimetext.com/) - Anouther great choice, similar to Atom, but not 100% free
-  * [Webstorm](https://www.jetbrains.com/webstorm/) - A full blown JavaScript IDE, but it comes at a price.
+The first type of destructuring we're going to talk about is array matching.
+Put simply, this feature allows you to assign a list of variables to matching
+indices in arrays. Let's take a look at this code example so that we can
+better see how this works.
 
-THe most important thing here is that you use a text editor that you are
-comfortable with.
-
-## Node and npm
-
-The next thing we're going to need to have installed is Node and npm. Luckily,
-npm comes bundled with Node when installed from the Node website. If you don't
-already have it, let's go ahead and install the latest version of Node right
-now.
-
-Everything you need is available on the [NodeJS](https://nodejs.org/en/download/)
-website. If you're using Mac or Windows, you're in luck, as there are installers
-for both platforms. Just make sure you click on the "Stable" button before
-downloading to ensure that you're getting the latest stable version.
-
-If you're using Linux, you can download the Linux binaries. Installing
-from the binaries is fairly straightforward:
-
-```bash
-$ wget https://nodejs.org/dist/v5.7.1/node-v5.7.1-linux-x64.tar.xz
-$ tar xzf node-v5.7.1-linux-x64.tar.xz
-$ sudo cp -rp node-v5.7.1-linux-x64 /usr/local/
-$ sudo ln -s /usr/local/node-v5.7.1-linux-x64 /usr/local/node
+```js
+> var list = [1, 2, 3]
+> var [a, b, c] = list
+> console.log(a, b, c)
+-> 1 2 3
 ```
 
-## Babel
+As you can see there, we were able to easily assign three variables, `a`, `b`,
+and `c`, to variables that match the indices of the array that we matched.
+It is also possible to skip an index when doing this type of assignment.
 
-In order to take advantage of all of the new ES2015 features we're going to
-use the Babel CLI to run our Node REPL, and to run our scripts.
-
-You may be wondering what the heck a Node REPL is right now. REPL stands for
-Read-Eval-Print-Loop. It is simply an interactive environment for writing
-and testing code for a computer language.
-
-Let's go ahead and install the Babel CLI now that we have Node and npm
-installed:
-
-```bash
-$ npm install -g babel-cli
+```js
+> var list = [1, 2, 3]
+> var [a, ,c] = list
+> console.log(a, c)
+-> 1 3
 ```
 
-We're using the `-g` flag to tell npm to install this package globally so
-that we will have access to the CLI commands everywhere.
+It's as easy as just not passing in a new variable name at the index that you
+would like to skip, and the variable won't be assigned.
 
-Normally we would use the `node` command to enter into a Node REPL, but
-because we want to take advantage of all of the newest ES2015 features, we're
-going to be using the `babel-node` command. This was installed when we
-installed the Babel CLI. If you're able to type in `babel-node` without any
-errors you're ready to move on to the next lesson!
+## Object Matching
 
-## Next Lesson
+Another great destructuring assignment that is now available to us is object
+matching. With object matching we can assign variables in much the same way
+that we did using array matching, but in this case we will be matching our
+variable names to the object keys, instead of array indices.
 
-Now that we've installed everything we need we can move on to actually
-writing some code and learning a few things about ES2015!
+```js
+> var obj = { a: 1, b: 2, c: 3 }
+> var { a, b, c } = obj
+> console.log(a, b, c)
+-> 1 2 3
+```
+
+As you can see, the syntax differs slightly here in that we're using curly
+braces for the destructuring assignment, to match the fact that we are
+destructuring on an object. This works equally as well for deeply nested
+objects.
+
+```js
+> var obj = { a: { b: 1, c: { d: 2 } } }
+> var { a: { b, c: { d } } } = obj
+> console.log(b, d)
+-> 1, 2
+```
+
+Now you can very easily extract a value from a deeply nested object using
+this new destructuring assignment! This is a great new feature.
+
+We can use these same types of assignments in functions.....
+
+## Parameter Context Matching
+
+Using parameter context matching we can use this same type of destructuring
+assignment syntax in the definition of function parameters. Let's take a look
+at the following example.
+
+```js
+function print({ value }) {
+  console.log(value)
+}
+```
+
+In this example, the `print` function is expecting to receive as an argument,
+an object with a key of `value`.
+
+```js
+> print({value: "Hello World!"})
+-> Hello World!
+```
+
+
+You can also extend this to work in various ways:
+
+```js
+> var obj = { value: 'Hello' }
+> print(obj)
+-> Hello
+```
+
+Here we just passed in a predefined object that fits what your function is
+looking for. But what if we had a variable named `value`, that already contains
+the value that we want to print? ES2015 has something for that too!
+
+```js
+> var value = 'Hello World!'
+> print({ value })
+-> Hello World!
+```
+
+That's really powerful and flexible! This allows you to write a lot less code,
+and to easily refactor existing code.
+
+You might think that this has all been really amazing, but we're not done yet!
+There's one more great feature, and it really puts the cherry on top of
+everything we have covered so far.
+
+## Fail Soft Destructuring
+
+When attempting to assign a variable via destructuring, if the indice or object
+key does not exist, that variable will simply be `undefined`, instead of
+throwing an error. That's not all though, we can actually assign a default
+value if we want also! Let's see this in action.
+
+```js
+> var list = [1, 2]
+> var [a = 10, b = 6, c = 40, d] = list
+> console.log(a, b, c, d)
+-> 1 2 40 undefined
+```
+
+Unfortunately, the default values only currently work for arrays, but at the
+very least we will get an undefined variable from an object key that doesn't
+exist.
+
+## Moving on...
+
+This has been a great introduction to destructuring assignments in ES2015,
+but let's keep moving and see what we can learn about string templates!
