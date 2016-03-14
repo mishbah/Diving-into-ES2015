@@ -1,87 +1,141 @@
-# Lesson 1.2 - Tools of the Trade
+# Lesson 2.3 - Parameter Handling in the Real World
 
-## Text Editor
+So far in this lesson we have learned some great new ES2015 features that
+have everything to do with parameter handling. Let's write a little bit of code
+so that we can see how this might help us in the real world.
 
-You're going to need a basic text editor for this course to follow along with
-some of the code samples. These days I prefer Vim, but there are a lot of
-great choices out there:
+We're going to create a receipt calculator function that leverages these features.
 
-  * [Atom](https://atom.io/) - A great free choice built by GitHub
-  * [Sublime Text](https://www.sublimetext.com/) - Anouther great choice, similar to Atom, but not 100% free
-  * [Webstorm](https://www.jetbrains.com/webstorm/) - A full blown JavaScript IDE, but it comes at a price.
+Let's go ahead and move into the directory that we established in the first
+lesson where we're going to hold all of our code for this tutorial and create
+a file called `calculator.js`. Once this is created go ahead and open it in your
+favorite text editor.
 
-THe most important thing here is that you use a text editor that you are
-comfortable with.
+Let's start by defining some sample data that we can export for easy testing
+in the console:
 
-## Node and npm
-
-The next thing we're going to need to have installed is Node and npm. Luckily,
-npm comes bundled with Node when installed from the Node website. If you don't
-already have it, let's go ahead and install the latest version of Node right
-now.
-
-Everything you need is available on the [NodeJS](https://nodejs.org/en/download/)
-website. If you're using Mac or Windows, you're in luck, as there are installers
-for both platforms. Just make sure you click on the "Stable" button before
-downloading to ensure that you're getting the latest stable version.
-
-If you're using Linux, you can download the Linux binaries. Installing
-from the binaries is fairly straightforward:
-
-```bash
-$ wget https://nodejs.org/dist/v5.7.1/node-v5.7.1-linux-x64.tar.xz
-$ tar xzf node-v5.7.1-linux-x64.tar.xz
-$ sudo cp -rp node-v5.7.1-linux-x64 /usr/local/
-$ sudo ln -s /usr/local/node-v5.7.1-linux-x64 /usr/local/node
+```js
+export const items = [
+  { amount: 10, taxable: true },
+  { amount: 22, taxable: false },
+  { amount: 13.45, taxable: true }
+]
 ```
 
-## Babel
+Great! We've set up a simple data structure here that holds a list of items
+that somebody is purchasing. Each of these items includes the cost of the
+item (amount) and whether or not the item is taxable.
 
-In order to take advantage of all of the new ES2015 features we're going to
-use the Babel CLI to run our Node REPL, and to run our scripts.
+Next we'll go ahead and start creating our function. Let's start with the
+shell of the function:
 
-You may be wondering what the heck a Node REPL is right now. REPL stands for
-Read-Eval-Print-Loop. It is simply an interactive environment for writing
-and testing code for a computer language.
+```js
+export function calculate() {
 
-Let's go ahead and install the Babel CLI now that we have Node and npm
-installed:
-
-```bash
-$ npm install -g babel-cli
+}
 ```
 
-We're using the `-g` flag to tell npm to install this package globally so
-that we will have access to the CLI commands everywhere.
+Now we've got a basic function, but unfortunately it doesn't do anything. Let's
+start by adding some parameters. There's a few things this function will need
+to know in order to be useful. The first thing it's going to need to know is
+the rate at which to apply tax to a particular item. Let's add that in, and
+give it a default value:
 
-Normally we would use the `node` command to enter into a Node REPL, but
-because we want to take advantage of all of the newest ES2015 features, we're
-going to be using the `babel-node` command. This was installed when we
-installed the Babel CLI. If you're able to type in `babel-node` without any
-errors you're ready to move on to the next lesson!
+```js
+export function calculate(taxRate = 8) {
 
-In order to use all of the ES2015 features available to us, we're going to
-need to install the ES2015 presets module. I would recommend creating a
-directory somewhere so that we can install the preset module and be able
-to access it in our code samples and when loading the `babel-node` REPL. So
-go ahead and create that directory and `cd` into it and install the ES2015
-presets module:
-
-```bash
-$ npm install babel-preset-es2015
+}
 ```
 
-Now, any time you would like to play around with code in the REPL, simply
-type:
+Ok great, but we're going to need more. We also need to have a list of items
+to iterate through in order to calculate the total. Let's add that as the
+items variable:
 
-```bash
-$ babel-node --presets es2015
+```js
+export function calculate(taxRate = 8, items = []) {
+
+}
 ```
 
-From within the directory that you installed the module, and you will be good
-to go!
+Awesome! Now we've got a function that takes two arguments, and they both have
+defaults, so we know they will always be defined! Let's write the meat of the
+function now:
 
-## Next Lesson
+```js
+export function calculate(taxRate = 8, items = []) {
+  var total = parseFloat(0)
 
-Now that we've installed everything we need we can move on to actually
-writing some code and learning a few things about ES2015!
+  items.forEach(function(item) {
+    if (item.taxable) {
+      total += item.value + (item.value * taxRate / 100)
+    } else {
+      total += item.value
+    }
+  })
+
+  return total
+}
+```
+
+Great! We've now got a function that we can use to calculate a total from a
+list of items. Let's open up the REPL and try it out!
+
+```bash
+$ babel-node
+> var { items, calculate } = require('./calculate')
+> calculate(8, items)
+-> 47.32599999999999
+```
+
+Cool! But wait a minute, what happens when we omit the `taxRate` variable?
+
+```bash
+> calculate(items)
+-> 0
+```
+
+Uh oh! What happened there? Unfortunately, because we are using `positional`
+arguments here, we can't omit the first `taxRate` variable and also include
+the `items` variable. When we omit the `taxRate` variable, the `items` variable
+now becomes the tax rate! Well this doesn't make having default values for
+parameters very useful now does it? We can get around this by using a JavaScript
+object in the function, along with some crafty destructuring assignment. Let's
+take a look:
+
+```js
+export function calculate({ taxRate = 8, items = [] }) {
+  ...
+}
+```
+
+Ok, so really all we did here was add a couple curly braces. But using a combination
+of default parameter values and destructuring here we are able to now pass in
+only a list of items and still get the default tax rate. This is because we
+are no longer using positional arguments and are able to use object keys to
+reference variables. Now we just need to change the way we call the function
+in the REPL:
+
+```bash
+> calculate({ items })
+-> 47.32599999999999
+```
+
+Awesome! We were able to fix our problem using destructuring and enhanced
+parameter handling! ES2015 is looking really great so far! If you were
+wondering about the function call:
+
+```bash
+> calculate({ items })
+```
+
+Using our new found ES2015 superpowers, we are able to not only destructure
+objects using that syntax, but we can also structure objects using the same
+syntax. What you see above is exactly the same as: `{ items: items }`. Because
+our variable name is the *same* as the name of the key we want in the object
+we can assign it this way. It's just a convenient shorthand.
+
+## Moving On....
+
+We learned a great deal in this lesson about all the great new ways to handle
+parameters, variables, and objects using ES2015. Let's move on and see how
+arrow functions can make our lives easier!
