@@ -60,7 +60,7 @@ going to be using the `babel-node` command. This was installed when we
 installed the Babel CLI. If you're able to type in `babel-node` without any
 errors you're ready to move on to the next lesson!
 
-In order to use all of the ES2015 features available to use, we're going to
+In order to use all of the ES2015 features available to us, we're going to
 need to install the ES2015 presets module. I would recommend creating a
 directory somewhere so that we can install the preset module and be able
 to access it in our code samples and when loading the `babel-node` REPL. So
