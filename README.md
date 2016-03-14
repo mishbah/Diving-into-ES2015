@@ -1,134 +1,99 @@
-# Lesson 2.1 - Destructuring Assignment
+# Lesson 2.2 - Parameter Handling
 
-ES2015 comes with a brand new way to assign variables when dealing with arrays
-and objects. This new feature is called `destructuring assignment` and it
-allows you to easily assign variables from array elements or key/value pairs
-for an object. Let's dive right in shall we?
+We're not done with the grat new features that ES2015 has when it comes to
+dealing with parameters and variables. There are more powerful new features
+available that help with handling parameters in functions.
 
-## Array Matching
+## Default Parameter Values
 
-The first type of destructuring we're going to talk about is array matching.
-Put simply, this feature allows you to assign a list of variables to matching
-indices in arrays. Let's take a look at this code example so that we can
-better see how this works.
+If you've ever seen code that looks like this and cringed:
 
 ```js
-> var list = [1, 2, 3]
-> var [a, b, c] = list
-> console.log(a, b, c)
--> 1 2 3
-```
-
-As you can see there, we were able to easily assign three variables, `a`, `b`,
-and `c`, to variables that match the indices of the array that we matched.
-It is also possible to skip an index when doing this type of assignment.
-
-```js
-> var list = [1, 2, 3]
-> var [a, ,c] = list
-> console.log(a, c)
--> 1 3
-```
-
-It's as easy as just not passing in a new variable name at the index that you
-would like to skip, and the variable won't be assigned.
-
-## Object Matching
-
-Another great destructuring assignment that is now available to us is object
-matching. With object matching we can assign variables in much the same way
-that we did using array matching, but in this case we will be matching our
-variable names to the object keys, instead of array indices.
-
-```js
-> var obj = { a: 1, b: 2, c: 3 }
-> var { a, b, c } = obj
-> console.log(a, b, c)
--> 1 2 3
-```
-
-As you can see, the syntax differs slightly here in that we're using curly
-braces for the destructuring assignment, to match the fact that we are
-destructuring on an object. This works equally as well for deeply nested
-objects.
-
-```js
-> var obj = { a: { b: 1, c: { d: 2 } } }
-> var { a: { b, c: { d } } } = obj
-> console.log(b, d)
--> 1, 2
-```
-
-Now you can very easily extract a value from a deeply nested object using
-this new destructuring assignment! This is a great new feature.
-
-We can use these same types of assignments in functions.....
-
-## Parameter Context Matching
-
-Using parameter context matching we can use this same type of destructuring
-assignment syntax in the definition of function parameters. Let's take a look
-at the following example.
-
-```js
-function print({ value }) {
-  console.log(value)
+function add(x, y) {
+  if (!x) x = 1
+  if (!y) y = 2
+  return x + y
 }
 ```
 
-In this example, the `print` function is expecting to receive as an argument,
-an object with a key of `value`.
+This is typically how you would have handled assigning default parameters to
+a function in past versions of JavaScript. With new ES2015 features, this
+can now be handled seamlessly:
 
 ```js
-> print({value: "Hello World!"})
--> Hello World!
+function add(x = 1, y = 2) {
+  return x + y
+}
 ```
 
+Now that's pretty neat! What we're saying there is exactly the same as the
+code above. If no `x` value is passed in, then assign it the value of `1`. The
+same goes for the `y` value. This new feature makes it very easy to assign
+default values to your function parameters, without all the extra code to
+check if they exist like we did above. Awesome!
 
-You can also extend this to work in various ways:
+## Rest Parameters
+
+We're not done yet! There's another great new feature that we can use in a
+variety of ways to make parameter decalrations for functions incredibly
+dynamic and easy to use. The next one we'll talk about is rest parameters.
+
+Using rest parameters, we can allow a dynamic number of arguments to be passed
+into a function:
 
 ```js
-> var obj = { value: 'Hello' }
-> print(obj)
--> Hello
+function add(...numbers) {
+  var total = 0
+  numbers.forEach(function(number) {
+    total += number
+  })
+  return total
+}
 ```
 
-Here we just passed in a predefined object that fits what your function is
-looking for. But what if we had a variable named `value`, that already contains
-the value that we want to print? ES2015 has something for that too!
+So what's going on there? Any time you declare a parameter in a function
+using the spread operator, it returns all of those parameters as an array.
+We can then just iterate over the collection of params and perform our
+addition! This is very handy in a lot of cases.
+
+It also works when you have required parameters:
+```js
+function product(multiplier = 1, ...numbers) {
+  var total = 0
+  numbers.forEach(function(number) {
+    total += number
+  })
+  return total * multiplier
+}
+```
+
+## Spread Operator
+
+Great! We're learning some really cool new features here, and there's one
+more that we haven't yet uncovered. It's called the spread operator. The spread
+operator allows us to assign an entire array of variables all in one fell
+swoop. Here's an example:
 
 ```js
-> var value = 'Hello World!'
-> print({ value })
--> Hello World!
+var ary = [1, 2, 3]
+var other = [4, 5, 6, ...ary]
+console.log(other)
+-> [4, 5, 6, 1, 2, 3]
 ```
 
-That's really powerful and flexible! This allows you to write a lot less code,
-and to easily refactor existing code.
-
-You might think that this has all been really amazing, but we're not done yet!
-There's one more great feature, and it really puts the cherry on top of
-everything we have covered so far.
-
-## Fail Soft Destructuring
-
-When attempting to assign a variable via destructuring, if the indice or object
-key does not exist, that variable will simply be `undefined`, instead of
-throwing an error. That's not all though, we can actually assign a default
-value if we want also! Let's see this in action.
+That's pretty neat! We were able to define a new array that contained the
+contents of the other array by simply using the spread operator! You can also
+use this syntax to unpack strings into an array:
 
 ```js
-> var list = [1, 2]
-> var [a = 10, b = 6, c = 40, d] = list
-> console.log(a, b, c, d)
--> 1 2 40 undefined
+var str = 'foo'
+var chars = [ ...str ]
+console.log(chars)
+-> ['f', 'o', 'o']
 ```
-
-Unfortunately, the default values only currently work for arrays, but at the
-very least we will get an undefined variable from an object key that doesn't
-exist.
 
 ## Moving on...
 
-This has been a great introduction to destructuring assignments in ES2015,
-but let's keep moving and see what we can learn about string templates!
+Awesome! We've learned a lot about new ways to handle variables in ES2015. Let's
+write a few code examples so that we can see how we would use this stuff in the
+real world!
