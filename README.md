@@ -1,134 +1,119 @@
-# Lesson 2.1 - Destructuring Assignment
+# Lesson 2.1 - Introducing Modules
 
-ES2015 comes with a brand new way to assign variables when dealing with arrays
-and objects. This new feature is called `destructuring assignment` and it
-allows you to easily assign variables from array elements or key/value pairs
-for an object. Let's dive right in shall we?
+The first thing we're going to talk about in this course is the introduction
+of a standard way to encapsulate code using modules.
 
-## Array Matching
+Up until the adoption of ES2015, JavaScript did not have any sort of defined
+module system. Both [RequireJS](http://requirejs.org/) (an AMD style module
+loading system) and [CommonJS](http://www.commonjs.org/) (a synchronous, blocking
+loading system) stepped in to try to solve this problem years ago, and have
+acheived wide adoption amongst developers, but there was always still contention
+as to which to use.
 
-The first type of destructuring we're going to talk about is array matching.
-Put simply, this feature allows you to assign a list of variables to matching
-indices in arrays. Let's take a look at this code example so that we can
-better see how this works.
+ES2015 style modules have yet to be implemented in any browser or NodeJS.
+We're using Babel here to be able to use the new syntax in our code. By default
+Babel will transpile your code to use the CommonJS style module syntax, and
+thus making it synchronous and blocking. You can change this behavior by
+defining a different [plugin](https://babeljs.io/docs/plugins/#modules) in the
+`.babelrc` file, but for the purposes of this course, we will be using the
+default behavior.
+
+Let's see how this works!
+
+## Module Exporting
+
+There are essentially two distinct ways to export code from a module and expose
+it to the world. The first thing to do is to simply export a variable or
+function:
 
 ```js
-> var list = [1, 2, 3]
-> var [a, b, c] = list
-> console.log(a, b, c)
--> 1 2 3
+export function add(x, y) {
+  return x + y
+}
+
+export const foo = 1
 ```
 
-As you can see there, we were able to easily assign three variables, `a`, `b`,
-and `c`, to variables that match the indices of the array that we matched.
-It is also possible to skip an index when doing this type of assignment.
+Requiring this module in another file will give you an object:
 
 ```js
-> var list = [1, 2, 3]
-> var [a, ,c] = list
-> console.log(a, c)
--> 1 3
-```
-
-It's as easy as just not passing in a new variable name at the index that you
-would like to skip, and the variable won't be assigned.
-
-## Object Matching
-
-Another great destructuring assignment that is now available to us is object
-matching. With object matching we can assign variables in much the same way
-that we did using array matching, but in this case we will be matching our
-variable names to the object keys, instead of array indices.
-
-```js
-> var obj = { a: 1, b: 2, c: 3 }
-> var { a, b, c } = obj
-> console.log(a, b, c)
--> 1 2 3
-```
-
-As you can see, the syntax differs slightly here in that we're using curly
-braces for the destructuring assignment, to match the fact that we are
-destructuring on an object. This works equally as well for deeply nested
-objects.
-
-```js
-> var obj = { a: { b: 1, c: { d: 2 } } }
-> var { a: { b, c: { d } } } = obj
-> console.log(b, d)
--> 1, 2
-```
-
-Now you can very easily extract a value from a deeply nested object using
-this new destructuring assignment! This is a great new feature.
-
-We can use these same types of assignments in functions.....
-
-## Parameter Context Matching
-
-Using parameter context matching we can use this same type of destructuring
-assignment syntax in the definition of function parameters. Let's take a look
-at the following example.
-
-```js
-function print({ value }) {
-  console.log(value)
+{
+  add: function add(x, y) { ... },
+  foo: 1
 }
 ```
 
-In this example, the `print` function is expecting to receive as an argument,
-an object with a key of `value`.
+You can then just refer to the export that you are looking for by the name
+of the key! This is great, but often times you will want to only export one
+thing from a module, and have that be the default export. This is where the,
+you guessed it, `default` keyword comes in:
 
 ```js
-> print({value: "Hello World!"})
--> Hello World!
+export default function add(x, y) {
+  return x + y
+}
 ```
 
+Now, if you import that, you can refer to the name of the function directly
+and import it all in one step.
 
-You can also extend this to work in various ways:
+## Module Importing
+
+Importing modules works very much the same way as exporting. Let's refer back
+to our last example where we exported the `add` function as the default. In
+another module, we can import that like this:
 
 ```js
-> var obj = { value: 'Hello' }
-> print(obj)
--> Hello
+import add from './my_math_module'
 ```
 
-Here we just passed in a predefined object that fits what your function is
-looking for. But what if we had a variable named `value`, that already contains
-the value that we want to print? ES2015 has something for that too!
+Now we will have the `add` function available in our file! It's that easy!
+You can also use some destructuring like syntax to import multiple exports
+all at once. Assuming that we changed out module back to it's original form
+from above where we were exporting multiple items, we can import them like so:
 
 ```js
-> var value = 'Hello World!'
-> print({ value })
--> Hello World!
+import { add, foo } from './my_math_module'
 ```
 
-That's really powerful and flexible! This allows you to write a lot less code,
-and to easily refactor existing code.
+## More Advanced Module Syntax
 
-You might think that this has all been really amazing, but we're not done yet!
-There's one more great feature, and it really puts the cherry on top of
-everything we have covered so far.
+In addition to these basic statements, we can import and export in a few different
+ways as well.
 
-## Fail Soft Destructuring
-
-When attempting to assign a variable via destructuring, if the indice or object
-key does not exist, that variable will simply be `undefined`, instead of
-throwing an error. That's not all though, we can actually assign a default
-value if we want also! Let's see this in action.
+There may be times when you want to export a module from *another* module. In
+this case you can do this directly:
 
 ```js
-> var list = [1, 2]
-> var [a = 10, b = 6, c = 40, d] = list
-> console.log(a, b, c, d)
--> 1 2 40 undefined
+export add from './my_math_module'
 ```
 
-Unfortunately, the default values only currently work for arrays, but at the
-very least we will get an undefined variable from an object key that doesn't
-exist.
+Nifty eh? How about exporting from a module that doesn't have a default? Yeah,
+we can do that too!
+
+```js
+export * from './my_math_module'
+```
+
+or
+
+```js
+export { add } from './my_math_module'
+```
+
+How about exporting from a module and changing the name? Yeah we can do that too:
+
+```js
+export * as math from './my_math_module'
+```
+
+We can use most of the same syntax for importing modules as well!
+
+```js
+import * as math from './my_math_module'
+```
 
 ## Moving on...
 
-This has been a great introduction to destructuring assignments in ES2015,
-but let's keep moving and see what we can learn about string templates!
+Fantastic! We've learned a bunch about how the new module system works in ES2015.
+Let's learn a little bit about how this helps us to encapsulate code!
