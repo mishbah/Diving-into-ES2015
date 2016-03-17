@@ -1,88 +1,63 @@
-# Lesson 4.2 - Receipt Printer
+# Lesson 5.1 - Arrow Functions
 
-Now that we know all about template literals, let's put them to use and create
-a function that will print out a receipt of all our items!
-
-The first thing we will do is refactor our `calculate` function to return the
-total price and the total tax separately:
-
-```js
-export function calculate({ taxRate = 8, items = [] }) {
-  var total = 0, totalTax = 0
-
-  items.forEach(function(item) {
-    total += item.price
-    totalTax += calculateTax({ taxRate, ...item })
-  })
-
-  return [total, totalTax]
-}
-```
-
-Not a huge change here, all we did was keep two separate running totals for
-price and tax, and returned them in as an array.
-
-We are going to use the `strip` function from the last lesson to create this
-receipt, so let's go ahead and make a new file called `strings.js` and
-paste in the strip function:
+When working in JavaScript, the lexical scoping of `this` often causes a lot
+of problems with newer developers (and seasoned veterans at times). This can
+be overcome, however, with the use of `Function.prototype.bind`. This will
+change code that looks like this:
 
 ```js
-export function strip(pieces, ...value) {
-  var str = ''
-  pieces.forEach((piece, index) => {
-    let val = value[index] || ''
-    str = str + piece + val
-  })
-  return str.replace(/^\s*/gm, '')
-}
+var self = this
+
+fetch('www.google.com').then(function(response) {
+  self.name = response.body.name
+})
 ```
 
-Ok great! Now it's as simple as importing the modules we need and creating
-a function that will print out a receipt! Lets create a file called `printer.js`
-and create our function:
+to this:
 
 ```js
-import { strip } from './strings'
-import { calculate } from './calculator'
-
-export function printReceipt(items) {
-  var [total, totalTax] = calculate({ items })
-
-  return strip`
-    ${items.map(item => item.price).join('\n')}
-    ${'-'.repeat(30)}
-    Sub-Total: ${total}
-    ${'='.repeat(30)}
-    Tax: ${totalTax}
-    ${'='.repeat(30)}
-    Total: ${total + totalTax}
-  `
-}
+fetch('www.sitepoint.com').then(function(response) {
+  this.name = response.body.name
+}).bind(this)
 ```
 
-That's it! So what's happening here? The first thing we did was calculate the
-total price and total tax using our calculate function, and assigned the values
-to `total` and `totalTax` variables using array matching. Then we used our custom
-template literal called `strip` to print out our receipt! Let's try it out in
-the console:
+As you can see, we have avoided assigning an otherwise useless variable by
+simply binding the function to `this`. This works fine, but it can get a little
+tedious, and it can be easy to forget.
 
-```bash
-$ babel-node
-> var { items } = require('./calculator')
-> var { printReceipt } = require('./printer')
-> console.log(printReceipt(items))
-->
-10
-22
-13.45
-------------------------------
-Sub-Total: 45.45
-==============================
-Tax: 1.876
-==============================
-Total: 47.326
+Have no fear! ES2015 has your back with a new feature called `arrow functions`.
+Arrow functions automagically bind to the lexical `this`, so no need for
+`bind(this)`!
+
+That function from above can now be written as:
+
+```js
+fetch('www.sitepoint.com').then((response) => {
+  this.name = response.body.name
+})
 ```
+
+Wow, that's awesome! It also allows you to use some shorthand syntaxes that
+come in really handy, and often times make your code easier to read. For instance,
+you can force an implicit return statement by enclosing the function call in
+parentheses instead of curly braces:
+
+```js
+fetch('www.sitepoint.com').then((response) => (
+  response.body.name
+))
+```
+
+You can even leave out the parentheses altogether!
+
+```js
+fetch('www.sitepoint.com').then(response => response.body.name)
+```
+
+Wow! Now that's something. No more endless indentations for one line callback
+functions.
 
 ## Moving on
-Template literals are awesome! Let's move on now and find out what this wacky
-new syntax called arrow functions are!
+Well, this was a short lesson, but I am fairly certain that you will be using
+this new ES2015 feature more than just about any other. Let's move on and
+use this in some realy life examples with our ever evolving receipt calculator.
