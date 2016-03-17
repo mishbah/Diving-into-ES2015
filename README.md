@@ -21,9 +21,9 @@ Let's create a function that will calculate the total amount that an item
 on a receipt will cost with (or without) tax.
 
 ```js
-export function taxedPrice(price, taxRate, taxable) {
-  if (!taxable) return price
-  return price + (price * taxRate / 100)
+export function calculateTax(price, taxRate, taxable) {
+  if (!taxable) return 0
+  return price * taxRate / 100
 }
 ```
 
@@ -35,11 +35,11 @@ REPL and we'll test it out.
 
 ```bash
 $ babel-node
-> var taxedPrice = require('./math').taxedPrice
-> taxedPrice(10, 8, true)
--> 10.8
-> taxedPrice(10, 8, false)
--> 10
+> var { calculateTax } = require('./math')
+> calculateTax(10, 8, true)
+-> 0.8
+> calculateTax(10, 8, false)
+-> 0
 ```
 
 See how easy that was? Now, any time we would like to use this function, we
@@ -48,7 +48,7 @@ can simply require it wherever we need it! Unfortunately, we can't use the
 ES2015 syntax in another module it would look like this:
 
 ```js
-import { taxedPrice } from './math'
+import { calculateTax } from './math'
 ```
 
 ## Moving on
