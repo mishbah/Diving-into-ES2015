@@ -1,4 +1,4 @@
-# Lesson 2.2 - Parameter Handling
+# Lesson 3.2 - Parameter Handling
 
 We're not done with the grat new features that ES2015 has when it comes to
 dealing with parameters and variables. There are more powerful new features
