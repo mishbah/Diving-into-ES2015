@@ -1,186 +1,107 @@
-# Lesson 3.3 - Parameter Handling in the Real World
+# Lesson 4.1 - New string functionality
 
-So far in this lesson we have learned some great new ES2015 features that
-have everything to do with parameter handling. Let's write a little bit of code
-so that we can see how this might help us in the real world.
+With ES2015 comes powerful new feature in handling string. Generally, it is
+referred to as `template literals`. You can now do really powerful things
+using interpolation. Let's get started shall we?!
 
-We're going to create a receipt calculator function that leverages these features.
+## Multi-line strings
 
-Let's go ahead and move into the directory that we established in the first
-lesson where we're going to hold all of our code for this tutorial and create
-a file called `calculator.js`. Once this is created go ahead and open it in your
-favorite text editor.
-
-Let's start by defining some sample data that we can export for easy testing
-in the console:
+One of the first neat things about template literals is that they can span
+multiple lines:
 
 ```js
-export const items = [
-  { price: 10, taxable: true },
-  { price: 22, taxable: false },
-  { price: 13.45, taxable: true }
-]
+var myString = `
+  This is a multi line string,
+and it will preserve whitespace
+    and newline characters
+`
 ```
 
-Great! We've set up a simple data structure here that holds a list of items
-that somebody is purchasing. Each of these items includes the cost of the
-item (price) and whether or not the item is taxable.
+As you can see, this makes for creating long strings with newlines and whitespace
+a very easy thing to do.
 
-Next we'll go ahead and start creating our function. Let's start with the
-shell of the function:
+## String interpolation
+
+Another super cool feature that has been a long time coming is interpolation.
+Given an object `person`:
 
 ```js
-export function calculate() {
-
-}
+var person = { name: 'Fred Flinstone', email: 'fred@slaterock.com' }
 ```
 
-Now we've got a basic function, but unfortunately it doesn't do anything. Let's
-start by adding some parameters. There's a few things this function will need
-to know in order to be useful. The first thing it's going to need to know is
-the rate at which to apply tax to a particular item. Let's add that in, and
-give it a default value:
+We can use it in a string like so:
 
 ```js
-export function calculate(taxRate = 8) {
-
-}
+var welcome = `Welcome ${person.name}! We will be sending you a welcome email to ${person.email} shortly!`
 ```
 
-Ok great, but we're going to need more. We also need to have a list of items
-to iterate through in order to calculate the total. Let's add that as the
-items variable:
+Awesome! Much nicer to read that a series of concatenated strings, don't you
+think?
 
-```js
-export function calculate(taxRate = 8, items = []) {
+It's also worth noting that anythin inside the `${ }` syntax will simply be
+evaludated as JavaScript so you can 'literally' put anything you want in there
+and it will be evaluated:
 
-}
+```bash
+> console.log(`${2 * 2}`)
+-> 4
 ```
 
-Awesome! Now we've got a function that takes two arguments, and they both have
-defaults, so we know they will always be defined! Let's write the meat of the
-function now:
+## Custom interpolation
+
+You can also use custom interpolation to create interpolated 'functions' with
+custom behavior:
 
 ```js
-export function calculate(taxRate = 8, items = []) {
-  var total = 0
+strip`
+   Welcome to Slate Rock ${person.name}
+   We have sent your welcom package to ${person.email}
+`
+```
 
-  items.forEach(function(item) {
-    if (item.taxable) {
-      total += item.value + (item.value * taxRate / 100)
-    } else {
-      total += item.value
-    }
+Wait a minute?!?! What the heck is going on here? Ok let's break it down. The
+first thing we need is a function called `strip` that takes multiple arguments.
+Let's create this function. The purpose here will be to strip all leading white
+space from the multi line string.
+
+```js
+export function strip(pieces, ...values) {
+  var str = ''
+
+  pieces.forEach((piece, index) => {
+    let val = values[index] || ''
+    str = str + piece + val
   })
 
-  return total
+  return str.replace(/^\s*/gm, '')
 }
 ```
 
-Ok that looks like it will work, but I think we should leverage the `math`
-module that we created in the last lesson to make this easier! Let's import it
-and put it to work:
+Ok there's our function. What's happening with that function call from up above
+there is we are actually calling the `strip` function with the template literal
+as the argument. Behind the scenes the template literal is being dissected into
+several parts. The first is an array of strings that is split anywhere the
+interpolation syntax is found. The `rest` of the arguments are the pieces of
+JavaScript themselves that have been evaluated.
+
+Let's take this string for example:
 
 ```js
-import { taxedPrice } from './math'
+`Your name is ${person.name}`
 ```
 
-Ok it's imported, now let's use it:
+That will produce the following arguments:
 
 ```js
-export function calculate(taxRate = 8, items = []) {
-  var total = 0
-
-  items.forEach(function(item) {
-    total += taxedPrice(item.price, taxRate, item.taxable)
-  })
-
-  return total
-}
+strip(['Your name is', ''], 'Fred Flinstone')
 ```
 
-Great! We've now got a function that we can use to calculate a total from a
-list of items. Let's open up the REPL and try it out!
+So what our little `strip` function is doing is grabbing all of the pure strings
+in the first argument, and then collecting the rest of the arguments into an
+array called `values`. We can then build the string ourselves (really, this is
+what JavaScript is doing behind the scenes) and add any extra functionality
+that we need to!
 
-```bash
-$ babel-node
-> var { items, calculate } = require('./calculate')
-> calculate(8, items)
--> 47.32599999999999
-```
-
-Cool! But wait a minute, what happens when we omit the `taxRate` variable?
-
-```bash
-> calculate(items)
--> 0
-```
-
-Uh oh! What happened there? Unfortunately, because we are using `positional`
-arguments here, we can't omit the first `taxRate` variable and also include
-the `items` variable. When we omit the `taxRate` variable, the `items` variable
-now becomes the tax rate! Well this doesn't make having default values for
-parameters very useful now does it? We can get around this by using a JavaScript
-object in the function, along with some crafty destructuring assignment. We're
-also going to modify our `taxedPrice` function in the math module to use this
-feature. Let's take a look:
-
-`math.js`
-
-```js
-export function taxedPrice({ price, taxRate, taxable }) {
-  ...
-}
-```
-
-`calculator.js`
-
-```js
-export function calculate({ taxRate = 8, items = [] }) {
-  var total = 0
-
-  items.forEach(function(item) {
-    total += taxedPrice({ taxRate, ...item })
-  })
-
-  return total
-}
-```
-
-So what happened there? The first thing we did was pretty simple. For both
-functions we added curly braces to the functions arguments. By using a
-combination of default parameter values and destructuring we are now able to
-pass in only a list of items and still get the default tax rate. This is because we
-are no longer using positional arguments and are able to use object keys to
-reference variables.
-
-You'll notice the second thing we did was change how we were passing arguments
-into the `taxedPrice` function. What we're doing here is using the spread
-operator to assign all of the values of the `item` object to the object that
-we are passing into the `taxedPrice` function! Now we just need to change the
-way we call the function in the REPL:
-
-```bash
-> calculate({ items })
--> 47.32599999999999
-```
-
-Awesome! We were able to fix our problem using destructuring and enhanced
-parameter handling! ES2015 is looking really great so far! If you were
-wondering about the function call:
-
-```bash
-> calculate({ items })
-```
-
-Using our new found ES2015 superpowers, we are able to not only destructure
-objects using that syntax, but we can also structure objects using the same
-syntax. What you see above is exactly the same as: `{ items: items }`. Because
-our variable name is the *same* as the name of the key we want in the object
-we can assign it this way. It's just a convenient shorthand.
-
-## Moving On....
-
-We learned a great deal in this lesson about all the great new ways to handle
-parameters, variables, and objects using ES2015. Let's move on and see how
-arrow functions can make our lives easier!
+## Moving on
+Ok, so we've learned about template literals. Now let's put it into practice
+and expand on the code we've been writing...
