@@ -68,18 +68,26 @@ go ahead and create that directory and `cd` into it and install the ES2015
 presets module:
 
 ```bash
-$ npm install babel-preset-es2015
+$ npm install babel-preset-es2015 babel-preset-stage-0
 ```
 
-Now, any time you would like to play around with code in the REPL, simply
-type:
+We could include these presets every time we start the REPL like this:
 
 ```bash
-$ babel-node --presets es2015
+$ babel-node --presets es2015 stage-0
 ```
 
-From within the directory that you installed the module, and you will be good
-to go!
+But it's much easier to create a `.babelrc` file to handle this for us! Let's
+go ahead and do that in the root of your code directory that we created.
+
+```json
+{
+  presets: [
+    'es2015',
+    'stage-0'
+  ]
+}
+```
 
 ## Next Lesson
 
