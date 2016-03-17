@@ -1,99 +1,55 @@
-# Lesson 2.2 - Parameter Handling
+# Lesson 2.2 - How to use modules
 
-We're not done with the grat new features that ES2015 has when it comes to
-dealing with parameters and variables. There are more powerful new features
-available that help with handling parameters in functions.
+In the last lesson we ran through all the different ways to import and export
+modules. But how and why do we put this to use? Because JavaScript has never
+had a built in module system, we tend to see a lot of code out in the wild
+that is just a whole bunch of unrelated code thrown together into a huge file.
 
-## Default Parameter Values
+Granted this is not true for every case, but it's good practice to keep your
+code self contained in small pieces. This helps immensely with maintenance,
+readability, and reusability.
 
-If you've ever seen code that looks like this and cringed:
+Let's take a quick look at how this can help us out by looking at some of the
+code that we created in the last lesson. In that lesson, we created some
+simple math functions for exporting. Let's create something a little more
+useful this time.
+
+First make sure you're in the directory where you previously installed
+`babel-node` and the presets module, and let's create a file called `math.js`.
+
+Let's create a function that will calculate the total amount that an item
+on a receipt will cost with (or without) tax.
 
 ```js
-function add(x, y) {
-  if (!x) x = 1
-  if (!y) y = 2
-  return x + y
+export function taxedPrice(price, taxRate, taxable) {
+  if (!taxable) return price
+  return price + (price * taxRate / 100)
 }
 ```
 
-This is typically how you would have handled assigning default parameters to
-a function in past versions of JavaScript. With new ES2015 features, this
-can now be handled seamlessly:
+Great! This is just a simple function that takes in a price, a tax rate, and
+a boolean that determines if the item is taxable. Pretty simple!
 
-```js
-function add(x = 1, y = 2) {
-  return x + y
-}
+Now that we've created this module, let's see how we can use it! Fire up the
+REPL and we'll test it out.
+
+```bash
+$ babel-node
+> var taxedPrice = require('./math').taxedPrice
+> taxedPrice(10, 8, true)
+-> 10.8
+> taxedPrice(10, 8, false)
+-> 10
 ```
 
-Now that's pretty neat! What we're saying there is exactly the same as the
-code above. If no `x` value is passed in, then assign it the value of `1`. The
-same goes for the `y` value. This new feature makes it very easy to assign
-default values to your function parameters, without all the extra code to
-check if they exist like we did above. Awesome!
-
-## Rest Parameters
-
-We're not done yet! There's another great new feature that we can use in a
-variety of ways to make parameter decalrations for functions incredibly
-dynamic and easy to use. The next one we'll talk about is rest parameters.
-
-Using rest parameters, we can allow a dynamic number of arguments to be passed
-into a function:
+See how easy that was? Now, any time we would like to use this function, we
+can simply require it wherever we need it! Unfortunately, we can't use the
+`import` statement in the REPL, but if we were to import this module using
+ES2015 syntax in another module it would look like this:
 
 ```js
-function add(...numbers) {
-  var total = 0
-  numbers.forEach(function(number) {
-    total += number
-  })
-  return total
-}
+import { taxedPrice } from './math'
 ```
 
-So what's going on there? Any time you declare a parameter in a function
-using the spread operator, it returns all of those parameters as an array.
-We can then just iterate over the collection of params and perform our
-addition! This is very handy in a lot of cases.
-
-It also works when you have required parameters:
-```js
-function product(multiplier = 1, ...numbers) {
-  var total = 0
-  numbers.forEach(function(number) {
-    total += number
-  })
-  return total * multiplier
-}
-```
-
-## Spread Operator
-
-Great! We're learning some really cool new features here, and there's one
-more that we haven't yet uncovered. It's called the spread operator. The spread
-operator allows us to assign an entire array of variables all in one fell
-swoop. Here's an example:
-
-```js
-var ary = [1, 2, 3]
-var other = [4, 5, 6, ...ary]
-console.log(other)
--> [4, 5, 6, 1, 2, 3]
-```
-
-That's pretty neat! We were able to define a new array that contained the
-contents of the other array by simply using the spread operator! You can also
-use this syntax to unpack strings into an array:
-
-```js
-var str = 'foo'
-var chars = [ ...str ]
-console.log(chars)
--> ['f', 'o', 'o']
-```
-
-## Moving on...
-
-Awesome! We've learned a lot about new ways to handle variables in ES2015. Let's
-write a few code examples so that we can see how we would use this stuff in the
-real world!
+## Moving on
+We've come a long way already! Let's move on and learn all about parameters!
