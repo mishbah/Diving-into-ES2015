@@ -1,4 +1,4 @@
-# Lesson 2.1 - Destructuring Assignment
+# Lesson 3.1 - Destructuring Assignment
 
 ES2015 comes with a brand new way to assign variables when dealing with arrays
 and objects. This new feature is called `destructuring assignment` and it
