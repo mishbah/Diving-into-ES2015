@@ -82,7 +82,7 @@ module that we created in the last lesson to make this easier! Let's import it
 and put it to work:
 
 ```js
-import { taxedPrice } from './math'
+import { calculateTax } from './math'
 ```
 
 Ok it's imported, now let's use it:
@@ -92,7 +92,7 @@ export function calculate(taxRate = 8, items = []) {
   var total = 0
 
   items.forEach(function(item) {
-    total += taxedPrice(item.price, taxRate, item.taxable)
+    total += item.price + calculateTax(item.price, taxRate, item.taxable)
   })
 
   return total
@@ -127,7 +127,7 @@ feature. Let's take a look:
 
 `math.js`
 ```js
-export function taxedPrice({ price, taxRate, taxable }) {
+export function calculateTax({ price, taxRate, taxable }) {
   ...
 }
 ```
@@ -138,7 +138,7 @@ export function calculate({ taxRate = 8, items = [] }) {
   var total = 0
 
   items.forEach(function(item) {
-    total += taxedPrice({ taxRate, ...item })
+    total += item.price + calculateTax({ taxRate, ...item })
   })
 
   return total
