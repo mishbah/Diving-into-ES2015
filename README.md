@@ -1,4 +1,4 @@
-# Lesson 2.3 - Parameter Handling in the Real World
+# Lesson 3.3 - Parameter Handling in the Real World
 
 So far in this lesson we have learned some great new ES2015 features that
 have everything to do with parameter handling. Let's write a little bit of code
@@ -16,15 +16,15 @@ in the console:
 
 ```js
 export const items = [
-  { amount: 10, taxable: true },
-  { amount: 22, taxable: false },
-  { amount: 13.45, taxable: true }
+  { price: 10, taxable: true },
+  { price: 22, taxable: false },
+  { price: 13.45, taxable: true }
 ]
 ```
 
 Great! We've set up a simple data structure here that holds a list of items
 that somebody is purchasing. Each of these items includes the cost of the
-item (amount) and whether or not the item is taxable.
+item (price) and whether or not the item is taxable.
 
 Next we'll go ahead and start creating our function. Let's start with the
 shell of the function:
@@ -63,7 +63,7 @@ function now:
 
 ```js
 export function calculate(taxRate = 8, items = []) {
-  var total = parseFloat(0)
+  var total = 0
 
   items.forEach(function(item) {
     if (item.taxable) {
@@ -71,6 +71,28 @@ export function calculate(taxRate = 8, items = []) {
     } else {
       total += item.value
     }
+  })
+
+  return total
+}
+```
+
+Ok that looks like it will work, but I think we should leverage the `math`
+module that we created in the last lesson to make this easier! Let's import it
+and put it to work:
+
+```js
+import { taxedPrice } from './math'
+```
+
+Ok it's imported, now let's use it:
+
+```js
+export function calculate(taxRate = 8, items = []) {
+  var total = 0
+
+  items.forEach(function(item) {
+    total += taxedPrice(item.price, taxRate, item.taxable)
   })
 
   return total
@@ -99,21 +121,44 @@ arguments here, we can't omit the first `taxRate` variable and also include
 the `items` variable. When we omit the `taxRate` variable, the `items` variable
 now becomes the tax rate! Well this doesn't make having default values for
 parameters very useful now does it? We can get around this by using a JavaScript
-object in the function, along with some crafty destructuring assignment. Let's
-take a look:
+object in the function, along with some crafty destructuring assignment. We're
+also going to modify our `taxedPrice` function in the math module to use this
+feature. Let's take a look:
+
+`math.js`
 
 ```js
-export function calculate({ taxRate = 8, items = [] }) {
+export function taxedPrice({ price, taxRate, taxable }) {
   ...
 }
 ```
 
-Ok, so really all we did here was add a couple curly braces. But using a combination
-of default parameter values and destructuring here we are able to now pass in
-only a list of items and still get the default tax rate. This is because we
+`calculator.js`
+
+```js
+export function calculate({ taxRate = 8, items = [] }) {
+  var total = 0
+
+  items.forEach(function(item) {
+    total += taxedPrice({ taxRate, ...item })
+  })
+
+  return total
+}
+```
+
+So what happened there? The first thing we did was pretty simple. For both
+functions we added curly braces to the functions arguments. By using a
+combination of default parameter values and destructuring we are now able to
+pass in only a list of items and still get the default tax rate. This is because we
 are no longer using positional arguments and are able to use object keys to
-reference variables. Now we just need to change the way we call the function
-in the REPL:
+reference variables.
+
+You'll notice the second thing we did was change how we were passing arguments
+into the `taxedPrice` function. What we're doing here is using the spread
+operator to assign all of the values of the `item` object to the object that
+we are passing into the `taxedPrice` function! Now we just need to change the
+way we call the function in the REPL:
 
 ```bash
 > calculate({ items })
