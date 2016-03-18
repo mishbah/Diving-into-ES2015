@@ -1,43 +1,39 @@
-# Lesson 6.1 - Constants
+# Lesson 6.1 - Block Scoped Variables
 
-ES2015 introduced a new variable type: `const`. This new variable type should
-not be confused with an immutable data structure like something from Immutable.js.
-This only means that the variable cannot be reassigned. This is illegal:
+Let's explore block scoped variables shall we? Block scoped variables are
+simply variables that are local to the block in which they were defined. Let's
+explore this a bit with some code samples.
 
-```js
-const x = 1
-x = 2 // Illegal
-```
-
-However, if the const is assigned an object such as an array, you can mutate
-the array:
+If we were to use `var` to declare a variable in this snippet, everything would
+be just fine:
 
 ```js
-const ary = [1, 2, 3]
-ary.push(4) // This is allowed
+for (var i = 0; i < 3; i++) {
+  var j = i * i
+}
+
+console.log(j) // This will print '4', and is fine
 ```
 
-You can mutate objects in the same way.
-
-Another thing to note about the `const` type is that it cannot be used before
-assignment. Whereas this is perfectly acceptable:
+But let's say we use `let` to declare that variable:
 
 ```js
-typeof bar
-var bar = 1
+for (let i = 0; i < 3; i++) {
+  let j = i * i
+}
+
+console.log(j) // This will throw, because let is local to the `for` loop.
 ```
 
-This will throw:
+This is a subtle difference, but an important one. This really helps to keep
+variables scoped to their local block, and avoids confusion for other developers
+(and yourself).
 
-```js
-typeof bar
-const bar = 1
-```
-
-Constants are great to use in most cases. Use `let` when you will need to
-reassign a variable for any reason, and `const` when you know it's only a
-single use variable. And `var`, well, `let` is the new `var`.
+Constants behave in exactly the same way as `let` when it comes to scoping.
+It is for this reason that it is preferred to use `const` and `let` over `var`
+as often as possible.
 
 ## Moving on
-That's it for our exploration of the new `const` type in ES2015, let's move on
-and start learning about block scoping!
+Easy! Block scoped variables are a simple concept, and using the right type
+of variable declarations is crucial to writing good, clean code. Let's move
+on and discuss block scoped functions!
