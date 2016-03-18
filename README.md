@@ -68,7 +68,7 @@ space from the multi line string.
 export function strip(pieces, ...values) {
   var str = ''
 
-  pieces.forEach((piece, index) => {
+  pieces.forEach(function(piece, index) {
     let val = values[index] || ''
     str = str + piece + val
   })
