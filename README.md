@@ -1,54 +1,41 @@
-# Lesson 7.3 - Getters, Setters, and Base Class Access
+# Lesson 7.4 - Static Members
 
-A couple of interesting things we can do with classes is defining getters
-and setters. It looks like this:
+The last thing we're going to talk about in regards to classes is static
+members. Static members allow you to create methods on a class that are not
+bound to any instance of the class. Let's look at a `Rectangle` class for
+instance:
 
 ```js
-class Car {
-  constructor(make) {
-    this._make = make
+class Rectangle {
+  constructor(width, length) {
+    this.width = width
+    this.length = length
   }
 
-  get make() {
-    return this._make
-  }
-
-  set make(newMake) {
-    this._make = newMake
+  static square(width) {
+    return new Rectangle(width, width)
   }
 }
 ```
 
-This is a pretty simple concept and allows us to have som control over some of
-the inner workings of our class at the instance level. Let's look at it in action:
+That's interesting! Let's see this in action!
 
 ```bash
-> var car = new Car('Toyota')
-> console.log(car.make)
--> Toyota
-> car.make = 'Dodge'
-> console.log(car.make)
--> 'Dodge'
+> var square = Rectangle.square(10)
+> square.width
+-> 10
+> square.length
+-> 10
 ```
 
-Cool! Let's check out how we can access the base class when using inheritance.
+As you can see, we were able to call the `square` method on the `Rectangle`
+class without creating a new instance of it. This is useful for situtations
+like we showed above, and also just for wrapping up code that is relevant to
+a specific class, but doesn't rely on any instance properties of the class to
+be useful.
 
-Imagine we have the `Truck` class from the last lesson, and we want to add the
-`drive` variable to the `print` method. We can do that pretty easily like this:
-
-```js
-print() {
-  return `${super.print()} with ${this.drive}`
-}
-```
-
-What we did there was access the base class with the `super` keyword, and then
-call the `print` method from the base class. We used string interpolation to
-add this to a new string that includes whether the vehicle is 2WD or 4WD.
-That's pretty cool! But again, beware of using this too much, because it
-does tightly couple the implementation of the `Truck` class to the implementation
-of the `Vehicle` class.
 
 ## Moving on
-We're moving right along! Let's finish up by talking about how to use static
-members!
+That's it for classes, and that's it for the Diving Into ES2015 course! Thanks
+for joining me, and you are now ready to dive into ES2015 and use all of the
+great new features it has to offer!
