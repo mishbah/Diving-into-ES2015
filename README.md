@@ -1,63 +1,73 @@
-# Lesson 5.1 - Arrow Functions
+# Lesson 5.2 - Arrow Functions Everywhere
 
-When working in JavaScript, the lexical scoping of `this` often causes a lot
-of problems with newer developers (and seasoned veterans at times). This can
-be overcome, however, with the use of `Function.prototype.bind`. This will
-change code that looks like this:
+Now that we know how to make use of arrow functions, let's refactor our code
+to use them!
 
-```js
-var self = this
-
-fetch('www.google.com').then(function(response) {
-  self.name = response.body.name
-})
-```
-
-to this:
+Let's start with our `strip` function in the `strings.js` file:
 
 ```js
-fetch('www.sitepoint.com').then(function(response) {
-  this.name = response.body.name
-}).bind(this)
+export function strip(pieces, ...value) {
+  var str = ''
+
+  pieces.forEach((piece, index) => {
+    let val = value[index] || ''
+    str = str + piece + val
+  })
+
+  return str.replace(/^\s*/gm, '')
+}
 ```
 
-As you can see, we have avoided assigning an otherwise useless variable by
-simply binding the function to `this`. This works fine, but it can get a little
-tedious, and it can be easy to forget.
+What we did there was replace the callback function in the `forEach` loop to
+be an arrow function. This doesn't net us a *ton* of extra room or readability,
+but it's a good idea to be consistent throughout your codebase, and I find it
+to be good practice to use arrow functions when creating anonymous callback
+functions like this.
 
-Have no fear! ES2015 has your back with a new feature called `arrow functions`.
-Arrow functions automagically bind to the lexical `this`, so no need for
-`bind(this)`!
-
-That function from above can now be written as:
+Next, we can move on to the `printReceipt` function in the `printer.js` file.
+This function will benefit a lot from this refactor. Let's tak a look at where
+we're mapping over the prices of the items and see if we can improve upon
+that:
 
 ```js
-fetch('www.sitepoint.com').then((response) => {
-  this.name = response.body.name
-})
+export function printReceipt(items) {
+  var [total, totalTax] = calculate({ items })
+
+  return strip`
+    ${items.map(item => item.price).join('\n')}
+    ${'-'.repeat(30)}
+    Sub-Total: ${total}
+    ${'='.repeat(30)}
+    Tax: ${totalTax}
+    ${'='.repeat(30)}
+    Total: ${total + totalTax}
+  `
+}
 ```
 
-Wow, that's awesome! It also allows you to use some shorthand syntaxes that
-come in really handy, and often times make your code easier to read. For instance,
-you can force an implicit return statement by enclosing the function call in
-parentheses instead of curly braces:
+That's better! We've reduced that callback function to three words and one
+fat arrow! And it's still very readable and clear what's going on. This is
+great!
+
+The last change we're going to make is in the `calculate` function in the
+`calculator.js` file. Here we're going to do the same thing we did in the
+`strip` function:
 
 ```js
-fetch('www.sitepoint.com').then((response) => (
-  response.body.name
-))
+export function calculate({ taxRate = 8, items = [] }) {
+  var total = 0, totalTax = 0
+
+  items.forEach(item => {
+    total += item.price
+    totalTax += calculateTax({ taxRate, ...item })
+  })
+
+  return [total, totalTax]
+}
 ```
 
-You can even leave out the parentheses altogether!
-
-```js
-fetch('www.sitepoint.com').then(response => response.body.name)
-```
-
-Wow! Now that's something. No more endless indentations for one line callback
-functions.
+Great! Our modules are looking better and better!
 
 ## Moving on
-Well, this was a short lesson, but I am fairly certain that you will be using
-this new ES2015 feature more than just about any other. Let's move on and
-use this in some realy life examples with our ever evolving receipt calculator.
+We're learning a lot about ES2015, but we're not done yet! Let's move on to
+the next lesson where we'll talk about variables and scoping!
