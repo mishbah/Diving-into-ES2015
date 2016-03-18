@@ -49,7 +49,7 @@ export function printReceipt(items) {
   var [total, totalTax] = calculate({ items })
 
   return strip`
-    ${items.map(item => item.price).join('\n')}
+    ${items.map(function(item) { return item.price }).join('\n')}
     ${'-'.repeat(30)}
     Sub-Total: ${total}
     ${'='.repeat(30)}
