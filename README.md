@@ -1,39 +1,31 @@
-# Lesson 6.2 - Block Scoped Variables
+# Lesson 6.3 - Block Scoped Functions
 
-Let's explore block scoped variables shall we? Block scoped variables are
-simply variables that are local to the block in which they were defined. Let's
-explore this a bit with some code samples.
+Block scoped functions work very much the same way that block scoped variables
+do. You mave have seen the IIFE(Immediately Invoked Function Expression)
+syntax used widely (and a lot in Angular apps). This is done to prevent the
+function declarations from polluting the global namespace.
 
-If we were to use `var` to declare a variable in this snippet, everything would
-be just fine:
-
-```js
-for (var i = 0; i < 3; i++) {
-  var j = i * i
-}
-
-console.log(j) // This will print '4', and is fine
-```
-
-But let's say we use `let` to declare that variable:
+ES2015 to the rescue again! What used to look like this:
 
 ```js
-for (let i = 0; i < 3; i++) {
-  let j = i * i
-}
-
-console.log(j) // This will throw, because let is local to the `for` loop.
+(function() {
+  var foo = function() { return 'bar' }
+})()
 ```
 
-This is a subtle difference, but an important one. This really helps to keep
-variables scoped to their local block, and avoids confusion for other developers
-(and yourself).
+Can now be encapsulated like this:
 
-Constants behave in exactly the same way as `let` when it comes to scoping.
-It is for this reason that it is preferred to use `const` and `let` over `var`
-as often as possible.
+```js
+{
+  function foo() { return 'bar' }
+}
+```
+
+While this is just a simple example, the implications of this are profound.
+It really moves JavaScript in the direction of many other programming
+languages that have always supported block scoping, and makes controlling
+the scope of variables and functions much, much easier.
 
 ## Moving on
-Easy! Block scoped variables are a simple concept, and using the right type
-of variable declarations is crucial to writing good, clean code. Let's move
-on and discuss block scoped functions!
+This was an easy section! Let's move on to learn about ES2015 classes and put
+all of our work together into some great class based code!
