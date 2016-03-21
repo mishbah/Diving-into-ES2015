@@ -7,7 +7,7 @@ Up until the adoption of ES2015, JavaScript did not have any sort of defined
 module system. Both [RequireJS](http://requirejs.org/) (an AMD style module
 loading system) and [CommonJS](http://www.commonjs.org/) (a synchronous, blocking
 loading system) stepped in to try to solve this problem years ago, and have
-acheived wide adoption amongst developers, but there was always still contention
+achieved wide adoption amongst developers, but there was always still contention
 as to which to use.
 
 ES2015 style modules have yet to be implemented in any browser or NodeJS.
