@@ -63,7 +63,7 @@ function now:
 
 ```js
 export function calculate(taxRate = 8, items = []) {
-  var total = 0
+  let total = 0
 
   items.forEach(function(item) {
     if (item.taxable) {
@@ -89,7 +89,7 @@ Ok it's imported, now let's use it:
 
 ```js
 export function calculate(taxRate = 8, items = []) {
-  var total = 0
+  let total = 0
 
   items.forEach(function(item) {
     total += taxedPrice(item.price, taxRate, item.taxable)
@@ -137,7 +137,7 @@ export function taxedPrice({ price, taxRate, taxable }) {
 
 ```js
 export function calculate({ taxRate = 8, items = [] }) {
-  var total = 0
+  let total = 0
 
   items.forEach(function(item) {
     total += taxedPrice({ taxRate, ...item })
