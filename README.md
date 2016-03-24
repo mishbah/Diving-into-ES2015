@@ -19,7 +19,7 @@ export const items = [
   { price: 10, taxable: true },
   { price: 22, taxable: false },
   { price: 13.45, taxable: true }
-]
+];
 ```
 
 Great! We've set up a simple data structure here that holds a list of items
@@ -63,17 +63,17 @@ function now:
 
 ```js
 export function calculate(taxRate = 8, items = []) {
-  let total = 0
+  let total = 0;
 
   items.forEach(function(item) {
     if (item.taxable) {
-      total += item.value + (item.value * taxRate / 100)
+      total += item.value + (item.value * taxRate / 100);
     } else {
-      total += item.value
+      total += item.value;
     }
   })
 
-  return total
+  return total;
 }
 ```
 
@@ -82,20 +82,20 @@ module that we created in the last lesson to make this easier! Let's import it
 and put it to work:
 
 ```js
-import { calculateTax } from './math'
+import { calculateTax } from './math';
 ```
 
 Ok it's imported, now let's use it:
 
 ```js
 export function calculate(taxRate = 8, items = []) {
-  let total = 0
+  let total = 0;
 
   items.forEach(function(item) {
-    total += item.price + calculateTax(item.price, taxRate, item.taxable)
+    total += item.price + calculateTax(item.price, taxRate, item.taxable);
   })
 
-  return total
+  return total;
 }
 ```
 
@@ -137,13 +137,13 @@ export function calculateTax({ price, taxRate, taxable }) {
 
 ```js
 export function calculate({ taxRate = 8, items = [] }) {
-  let total = 0
+  let total = 0;
 
   items.forEach(function(item) {
-    total += itemprice + calculateTax({ taxRate, ...item })
+    total += itemprice + calculateTax({ taxRate, ...item });
   })
 
-  return total
+  return total;
 }
 ```
 
