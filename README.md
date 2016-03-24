@@ -31,7 +31,7 @@ export function strip(pieces, ...value) {
   let str = '';
   pieces.forEach(function(piece, index) {
     let val = value[index] || '';
-    str = str + piece + val;
+    str += piece + val;
   })
   return str.replace(/^\s*/gm, '');
 }
@@ -49,7 +49,7 @@ export function printReceipt(items) {
   let {total, totalTax} = calculate({ items });
 
   return strip`
-    ${items.map(item => item.price).join('\n')}
+    ${items.map(function(item) { return item.price }).join('\n')}
     ${'-'.repeat(30)}
     Sub-Total: ${total}
     ${'='.repeat(30)}
