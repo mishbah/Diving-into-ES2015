@@ -124,9 +124,16 @@ value if we want also! Let's see this in action.
 -> 1 2 40 undefined
 ```
 
-Unfortunately, the default values only currently work for arrays, but at the
-very least we will get an undefined variable from an object key that doesn't
-exist.
+This also works for objects:
+
+```js
+> var obj = { a: 1, b: 2 }
+> var { a = 10, b = 5, c = 8, d }
+> console.log(a, b, c, d)
+-> 1 2 8 undefined
+```
+
+Awesome! This is going to make variable assignment a breeze!
 
 ## Moving on...
 
