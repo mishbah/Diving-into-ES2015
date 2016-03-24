@@ -6,19 +6,19 @@ be overcome, however, with the use of `Function.prototype.bind`. This will
 change code that looks like this:
 
 ```js
-var self = this
+let self = this;
 
 fetch('www.google.com').then(function(response) {
-  self.name = response.body.name
-})
+  self.name = response.body.name;
+});
 ```
 
 to this:
 
 ```js
 fetch('www.sitepoint.com').then(function(response) {
-  this.name = response.body.name
-}).bind(this)
+  this.name = response.body.name;
+}).bind(this);
 ```
 
 As you can see, we have avoided assigning an otherwise useless variable by
@@ -33,7 +33,7 @@ That function from above can now be written as:
 
 ```js
 fetch('www.sitepoint.com').then((response) => {
-  this.name = response.body.name
+  this.name = response.body.name;
 })
 ```
 
@@ -44,14 +44,22 @@ parentheses instead of curly braces:
 
 ```js
 fetch('www.sitepoint.com').then((response) => (
-  response.body.name
-))
+  response.body.name;
+));
+```
+
+The above function is equivalent to the following:
+
+```js
+fetch('www.sitepoint.com').then((response) => {
+  return response.body.name;
+});
 ```
 
 You can even leave out the parentheses altogether!
 
 ```js
-fetch('www.sitepoint.com').then(response => response.body.name)
+fetch('www.sitepoint.com').then(response => response.body.name);
 ```
 
 Wow! Now that's something. No more endless indentations for one line callback
