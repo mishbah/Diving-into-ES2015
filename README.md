@@ -22,8 +22,8 @@ on a receipt will cost with (or without) tax.
 
 ```js
 export function calculateTax(price, taxRate, taxable) {
-  if (!taxable) return 0
-  return price * taxRate / 100
+  if (!taxable) return 0;
+  return price * taxRate / 100;
 }
 ```
 
@@ -48,7 +48,7 @@ can simply require it wherever we need it! Unfortunately, we can't use the
 ES2015 syntax in another module it would look like this:
 
 ```js
-import { calculateTax } from './math'
+import { calculateTax } from './math';
 ```
 
 ## Moving on
