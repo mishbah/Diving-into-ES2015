@@ -8,14 +8,14 @@ total price and the total tax separately:
 
 ```js
 export function calculate({ taxRate = 8, items = [] }) {
-  var total = 0, totalTax = 0
+  let total = 0, totalTax = 0;
 
   items.forEach(function(item) {
-    total += item.price
-    totalTax += calculateTax({ taxRate, ...item })
+    total += item.price;
+    totalTax += calculateTax({ taxRate, ...item });
   })
 
-  return [total, totalTax]
+  return {total, totalTax}
 }
 ```
 
@@ -28,12 +28,12 @@ paste in the strip function:
 
 ```js
 export function strip(pieces, ...value) {
-  var str = ''
+  let str = '';
   pieces.forEach((piece, index) => {
-    let val = value[index] || ''
-    str = str + piece + val
+    let val = value[index] || '';
+    str = str + piece + val;
   })
-  return str.replace(/^\s*/gm, '')
+  return str.replace(/^\s*/gm, '');
 }
 ```
 
@@ -42,11 +42,11 @@ a function that will print out a receipt! Lets create a file called `printer.js`
 and create our function:
 
 ```js
-import { strip } from './strings'
-import { calculate } from './calculator'
+import { strip } from './strings';
+import { calculate } from './calculator';
 
 export function printReceipt(items) {
-  var [total, totalTax] = calculate({ items })
+  let {total, totalTax} = calculate({ items });
 
   return strip`
     ${items.map(item => item.price).join('\n')}
@@ -56,7 +56,7 @@ export function printReceipt(items) {
     Tax: ${totalTax}
     ${'='.repeat(30)}
     Total: ${total + totalTax}
-  `
+  `;
 }
 ```
 
