@@ -10,9 +10,9 @@ If you've ever seen code that looks like this and cringed:
 
 ```js
 function add(x, y) {
-  if (!x) x = 1
-  if (!y) y = 2
-  return x + y
+  if (!x) x = 1;
+  if (!y) y = 2;
+  return x + y;
 }
 ```
 
@@ -22,7 +22,7 @@ can now be handled seamlessly:
 
 ```js
 function add(x = 1, y = 2) {
-  return x + y
+  return x + y;
 }
 ```
 
@@ -43,11 +43,11 @@ into a function:
 
 ```js
 function add(...numbers) {
-  var total = 0
+  let total = 0;
   numbers.forEach(function(number) {
-    total += number
+    total += number;
   })
-  return total
+  return total;
 }
 ```
 
@@ -59,11 +59,11 @@ addition! This is very handy in a lot of cases.
 It also works when you have required parameters:
 ```js
 function product(multiplier = 1, ...numbers) {
-  var total = 0
+  let total = 0;
   numbers.forEach(function(number) {
-    total += number
+    total += number;
   })
-  return total * multiplier
+  return total * multiplier;
 }
 ```
 
@@ -75,8 +75,8 @@ operator allows us to assign an entire array of variables all in one fell
 swoop. Here's an example:
 
 ```js
-var ary = [1, 2, 3]
-var other = [4, 5, 6, ...ary]
+let ary = [1, 2, 3]
+let other = [4, 5, 6, ...ary]
 console.log(other)
 -> [4, 5, 6, 1, 2, 3]
 ```
@@ -86,8 +86,8 @@ contents of the other array by simply using the spread operator! You can also
 use this syntax to unpack strings into an array:
 
 ```js
-var str = 'foo'
-var chars = [ ...str ]
+let str = 'foo'
+let chars = [ ...str ]
 console.log(chars)
 -> ['f', 'o', 'o']
 ```
