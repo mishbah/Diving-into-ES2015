@@ -10,7 +10,7 @@ One of the first neat things about template literals is that they can span
 multiple lines:
 
 ```js
-var myString = `
+let myString = `
   This is a multi line string,
 and it will preserve whitespace
     and newline characters
@@ -26,13 +26,13 @@ Another super cool feature that has been a long time coming is interpolation.
 Given an object `person`:
 
 ```js
-var person = { name: 'Fred Flinstone', email: 'fred@slaterock.com' }
+let person = { name: 'Fred Flinstone', email: 'fred@slaterock.com' }
 ```
 
 We can use it in a string like so:
 
 ```js
-var welcome = `Welcome ${person.name}! We will be sending you a welcome email to ${person.email} shortly!`
+let welcome = `Welcome ${person.name}! We will be sending you a welcome email to ${person.email} shortly!`
 ```
 
 Awesome! Much nicer to read that a series of concatenated strings, don't you
@@ -66,14 +66,14 @@ space from the multi line string.
 
 ```js
 export function strip(pieces, ...values) {
-  var str = ''
+  let str = '';
 
   pieces.forEach(function(piece, index) {
-    let val = values[index] || ''
-    str = str + piece + val
+    let val = values[index] || '';
+    str += piece + val;
   })
 
-  return str.replace(/^\s*/gm, '')
+  return str.replace(/^\s*/gm, '');
 }
 ```
 
