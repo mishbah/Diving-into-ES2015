@@ -40,6 +40,10 @@ $ sudo ln -s /usr/local/node-v5.7.1-linux-x64 /usr/local/node
 In order to take advantage of all of the new ES2015 features we're going to
 use the Babel CLI to run our Node REPL, and to run our scripts.
 
+What is Babel? Simply put, [Babel](https://babeljs.io/) is a JavaScript compiler. Babel takes
+code that is written in future versions of JavaScript (or things like JSX for
+React) and compiles it to code that is compatible in most modern browsers.
+
 You may be wondering what the heck a Node REPL is right now. REPL stands for
 Read-Eval-Print-Loop. It is simply an interactive environment for writing
 and testing code for a computer language.
@@ -61,23 +65,24 @@ installed the Babel CLI. If you're able to type in `babel-node` without any
 errors you're ready to move on to the next lesson!
 
 In order to use all of the ES2015 features available to us, we're going to
-need to install the ES2015 presets module. I would recommend creating a
-directory somewhere so that we can install the preset module and be able
-to access it in our code samples and when loading the `babel-node` REPL. So
-go ahead and create that directory and `cd` into it and install the ES2015
-presets module:
+need to install the ES2015 presets module. Let's go ahead and create a directory
+where we can store all of our code samples from this course. After creating
+the directory, we'll install the babel presets module:
 
 ```bash
-$ npm install babel-preset-es2015 babel-preset-stage-0
+$ mkdir diving-into-es2015
+$ cd diving-into-es2015
+$ npm install babel-preset-es2015
 ```
 
 We could include these presets every time we start the REPL like this:
 
 ```bash
-$ babel-node --presets es2015 stage-0
+$ babel-node --presets es2015
 ```
 
-But it's much easier to create a `.babelrc` file to handle this for us! Let's
+But it's much easier to create a `.babelrc` file to handle this for us! A `.babelrc`
+is simply a configuration file that Babel will look for any time it is run. Let's
 go ahead and do that in the root of your code directory that we created.
 
 ```json
