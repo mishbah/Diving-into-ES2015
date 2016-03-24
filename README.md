@@ -28,10 +28,10 @@ function:
 
 ```js
 export function add(x, y) {
-  return x + y
+  return x + y;
 }
 
-export const foo = 1
+export const foo = 1;
 ```
 
 Requiring this module in another file will give you an object:
@@ -50,7 +50,7 @@ you guessed it, `default` keyword comes in:
 
 ```js
 export default function add(x, y) {
-  return x + y
+  return x + y;
 }
 ```
 
@@ -64,7 +64,7 @@ to our last example where we exported the `add` function as the default. In
 another module, we can import that like this:
 
 ```js
-import add from './my_math_module'
+import add from './my_math_module';
 ```
 
 Now we will have the `add` function available in our file! It's that easy!
@@ -73,7 +73,7 @@ all at once. Assuming that we changed out module back to it's original form
 from above where we were exporting multiple items, we can import them like so:
 
 ```js
-import { add, foo } from './my_math_module'
+import { add, foo } from './my_math_module';
 ```
 
 ## More Advanced Module Syntax
@@ -85,32 +85,32 @@ There may be times when you want to export a module from *another* module. In
 this case you can do this directly:
 
 ```js
-export add from './my_math_module'
+export add from './my_math_module';
 ```
 
 Nifty eh? How about exporting from a module that doesn't have a default? Yeah,
 we can do that too!
 
 ```js
-export * from './my_math_module'
+export * from './my_math_module';
 ```
 
 or
 
 ```js
-export { add } from './my_math_module'
+export { add } from './my_math_module';
 ```
 
 How about exporting from a module and changing the name? Yeah we can do that too:
 
 ```js
-export * as math from './my_math_module'
+export * as math from './my_math_module';
 ```
 
 We can use most of the same syntax for importing modules as well!
 
 ```js
-import * as math from './my_math_module'
+import * as math from './my_math_module';
 ```
 
 ## Moving on...
