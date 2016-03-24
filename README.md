@@ -7,7 +7,7 @@ browsers.
 
 In this course we'll be covering new features such as parameter destructuring,
 template strings, arrow functions, and classes. Some of these new features
-are additions to the core of the ECMA script, while others, such as classes
+are additions to the core of the ECMAScript, while others, such as classes
 just provide some syntactical sugar on top of old functionality, just to make
 things easier to code.
 
