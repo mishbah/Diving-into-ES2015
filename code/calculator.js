@@ -1,17 +1,17 @@
-import { calculateTax } from './math'
+import { calculateTax } from './math';
 
 export const items = [
   { price: 10, taxable: true },
   { price: 22, taxable: false },
   { price: 13.45, taxable: true }
-]
+];
 
 export function calculate({ taxRate = 8, items = [] }) {
-  var total = 0
+  let total = 0;
 
   items.forEach(function(item) {
-    total += item.price + calculateTax({ taxRate, ...item })
+    total += item.price + calculateTax({ taxRate, ...item });
   })
 
-  return total
+  return total;
 }

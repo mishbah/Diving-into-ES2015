@@ -63,17 +63,17 @@ function now:
 
 ```js
 export function calculate(taxRate = 8, items = []) {
-  var total = 0
+  let total = 0;
 
   items.forEach(function(item) {
     if (item.taxable) {
-      total += item.value + (item.value * taxRate / 100)
+      total += item.value + (item.value * taxRate / 100);
     } else {
-      total += item.value
+      total += item.value;
     }
   })
 
-  return total
+  return total;
 }
 ```
 
@@ -82,20 +82,20 @@ module that we created in the last lesson to make this easier! Let's import it
 and put it to work:
 
 ```js
-import { calculateTax } from './math'
+import { calculateTax } from './math';
 ```
 
 Ok it's imported, now let's use it:
 
 ```js
 export function calculate(taxRate = 8, items = []) {
-  var total = 0
+  let total = 0;
 
   items.forEach(function(item) {
-    total += item.price + calculateTax(item.price, taxRate, item.taxable)
+    total += item.price + calculateTax(item.price, taxRate, item.taxable);
   })
 
-  return total
+  return total;
 }
 ```
 
@@ -135,13 +135,13 @@ export function calculateTax({ price, taxRate, taxable }) {
 `calculator.js`
 ```js
 export function calculate({ taxRate = 8, items = [] }) {
-  var total = 0
+  let total = 0;
 
   items.forEach(function(item) {
-    total += item.price + calculateTax({ taxRate, ...item })
+    total += item.price + calculateTax({ taxRate, ...item });
   })
 
-  return total
+  return total;
 }
 ```
 
@@ -150,12 +150,12 @@ functions we added curly braces to the functions arguments. By using a
 combination of default parameter values and destructuring we are now able to
 pass in only a list of items and still get the default tax rate. This is because we
 are no longer using positional arguments and are able to use object keys to
-reference variables. 
+reference variables.
 
 You'll notice the second thing we did was change how we were passing arguments
 into the `taxedPrice` function. What we're doing here is using the spread
 operator to assign all of the values of the `item` object to the object that
-we are passing into the `taxedPrice` function! Now we just need to change the 
+we are passing into the `taxedPrice` function! Now we just need to change the
 way we call the function in the REPL:
 
 ```bash
