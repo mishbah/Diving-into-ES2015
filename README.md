@@ -122,11 +122,11 @@ export default class Calculator {
       totalTax += this.calculateTax(item)
     })
 
-    return [total, totalTax]
+    return {total, totalTax}
   }
 
   printReceipt() {
-    var [total, totalTax] = this.calculate()
+    let {total, totalTax} = this.calculate()
 
     return strip`
       ${this.items.map(item => item.price).join('\n')}
