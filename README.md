@@ -1,6 +1,6 @@
 # Lesson 7.1 - Introducing Classes
 
-One of the most controversial new features of ES2015 are classes.
+A great new feature in ES2015 is the brand new `class` keyword.
 Classes are not baked into ES2015, but rather, are just some syntactic sugar
 over a pattern that is well established in the JavaScript community.
 
@@ -21,7 +21,12 @@ Foo.prototype = {
 }
 ```
 
-You can convert this to an ES2015 style class like this:
+Adding the `add` function to the prototype will give every instance of `Foo`
+the `add` function.
+
+## Classes!
+
+This exact same pattern can be expressed like this using ES2015:
 
 ```js
 class Foo {
@@ -36,15 +41,22 @@ class Foo {
 ```
 
 This is a nicer looking syntax, but doesn't offer anything extra in the
-way of functionality. There are some who argue that this is a recipe for
-disaster, and when you introduce things like inheritance, you are setting
-yourself up for nightmarish debugging sessions. Many people prefer using
-`factory functions` over classes, because they offer much more flexibility
-and prefer composition over inheritance.
+way of functionality. It simply gives us a much nicer way to implement classes
+and class inheritance like other programming languages that already have this
+functionality. This looks a lot like how classes and inheritance is implemented
+in Ruby:
 
-Taking a deep dive into the differences between the two styles is out of the
-scope of this course, but I will include links to some great articles on the
-subject, and you can decide for yourself which pattern is best for you.
+```ruby
+class Foo
+  def initialize(x)
+    @x = x
+  end
+
+  def add(y)
+    @x + y
+  end
+end
+```
 
 ## Moving on
 That's it for the introduction to classes! Let's move on to the next lesson
