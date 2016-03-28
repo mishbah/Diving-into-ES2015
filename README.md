@@ -14,7 +14,7 @@ class Rectangle {
 
   static square(width) {
     return new Rectangle(width, width)
-  }
+  };
 }
 ```
 
@@ -33,7 +33,6 @@ class without creating a new instance of it. This is useful for situtations
 like we showed above, and also just for wrapping up code that is relevant to
 a specific class, but doesn't rely on any instance properties of the class to
 be useful.
-
 
 ## Moving on
 That's it for classes, and that's it for the Diving Into ES2015 course! Thanks
