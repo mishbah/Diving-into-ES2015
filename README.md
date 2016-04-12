@@ -87,32 +87,42 @@ Scoping also applies to switch statements. Adding curly braces to your `case`
 statements will encapsulate them in their own scope.
 
 ```js
-let i = 10;
-let foo = 'BAR';
+const i = 0;
 
 switch (i) {
-  case 10:
-    let foo = 'It's 10!';
+  case 0:
+    const label = 'zero';
+    console.log(label);
+    break;
+  case 1:
+    const label = 'one';
+    console.log(label);
+    break;
 }
 ```
 
-This will throw an error because you are attempting to redefine the `foo`
-variable. The `foo` variable is still in scope inside of that case statement.
-However, if we rewrite that like this:
+This will throw an error because you are attempting to define the `label`
+const twice inside of the same scope.  However, if we rewrite that like this:
 
 ```js
-let i = 10;
-let foo = 'BAR';
+const i = 0;
 
 switch (i) {
-  case 10: {
-    let foo = 'It's 10!';
+  case 0: {
+    const label = 'zero';
+    console.log(label);
+    break;
+  }
+  case 1: {
+    const label = 'one';
+    console.log(label);
+    break;
   }
 }
 ```
 
 This is perfectly acceptable, because we have created an isolated scope for
-the case statement.
+each case statement.
 
 ## Wrapping up
 
