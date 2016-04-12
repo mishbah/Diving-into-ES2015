@@ -62,7 +62,7 @@ Normally we would use the `node` command to enter into a Node REPL, but
 because we want to take advantage of all of the newest ES2015 features, we're
 going to be using the `babel-node` command. This was installed when we
 installed the Babel CLI. If you're able to type in `babel-node` without any
-errors you're ready to move on to the next lesson!
+errors you're ready to move on and start writing some ES2015 code!
 
 In order to use all of the ES2015 features available to us, we're going to
 need to install the ES2015 presets module. Let's go ahead and create a directory
