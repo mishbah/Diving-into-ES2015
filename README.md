@@ -44,7 +44,7 @@ class Vehicle {
   }
 
   print() {
-    return `${year} ${make} ${model`
+    return `${this.year} ${this.make} ${this.model}`
   }
 }
 ```
