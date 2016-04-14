@@ -183,4 +183,4 @@ we can assign it this way. It's just a convenient shorthand.
 
 We learned a great deal in this lesson about all the great new ways to handle
 parameters, variables, and objects using ES2015. Let's move on and see how
-arrow functions can make our lives easier!
+template strings can make our lives easier!
