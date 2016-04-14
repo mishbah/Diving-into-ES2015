@@ -122,7 +122,7 @@ the `items` variable. When we omit the `taxRate` variable, the `items` variable
 now becomes the tax rate! Well this doesn't make having default values for
 parameters very useful now does it? We can get around this by using a JavaScript
 object in the function, along with some crafty destructuring assignment. We're
-also going to modify our `taxedPrice` function in the math module to use this
+also going to modify our `calculateTax` function in the math module to use this
 feature. Let's take a look:
 
 `math.js`
@@ -155,9 +155,9 @@ are no longer using positional arguments and are able to use object keys to
 reference variables.
 
 You'll notice the second thing we did was change how we were passing arguments
-into the `taxedPrice` function. What we're doing here is using the spread
+into the `calculateTax` function. What we're doing here is using the spread
 operator to assign all of the values of the `item` object to the object that
-we are passing into the `taxedPrice` function! Now we just need to change the
+we are passing into the `calculateTax` function! Now we just need to change the
 way we call the function in the REPL:
 
 ```bash
