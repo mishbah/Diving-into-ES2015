@@ -1,6 +1,6 @@
 # Lesson 7.4 - Static Members
 
-The last thing we're going to talk about in regards to classes is static
+The last thing we're going to talk about with regards to classes is static
 members. Static members allow you to create methods on a class that are not
 bound to any instance of the class. Let's look at a `Rectangle` class for
 instance:
@@ -38,3 +38,5 @@ be useful.
 That's it for classes, and that's it for the Diving Into ES2015 course! Thanks
 for joining me, and you are now ready to dive into ES2015 and use all of the
 great new features it has to offer!
+
+TODO - list out the great features not covered with a short synopsis?
