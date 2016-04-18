@@ -18,7 +18,7 @@ to this:
 ```js
 fetch('www.sitepoint.com').then(function(response) {
   this.name = response.body.name;
-}).bind(this);
+}.bind(this));
 ```
 
 As you can see, we have avoided assigning an otherwise useless variable by
@@ -36,6 +36,8 @@ fetch('www.sitepoint.com').then((response) => {
   this.name = response.body.name;
 })
 ```
+
+TODO - more examples of what lexical this...?
 
 Wow, that's awesome! It also allows you to use some shorthand syntaxes that
 come in really handy, and often times make your code easier to read. For instance,
@@ -60,6 +62,12 @@ You can even leave out the parentheses altogether!
 
 ```js
 fetch('www.sitepoint.com').then(response => response.body.name);
+```
+
+or with destructuring
+
+```js
+fetch('www.sitepoint.com').then(({ body: { name } }) => name);
 ```
 
 Wow! Now that's something. No more endless indentations for one line callback
