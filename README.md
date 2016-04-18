@@ -1,8 +1,8 @@
 # Lesson 6.1 - Constants and Let
 
 ES2015 introduced a new variable type: `const`. This new variable type should
-not be confused with an immutable data structure like something from Immutable.js.
-This only means that the variable cannot be reassigned. This is illegal:
+not be confused with constants in other languages as it doesn't mean the value is constant at all!
+It only means that the variable cannot be reassigned, therefore it has a constant reference. This is illegal:
 
 ```js
 const x = 1
@@ -42,18 +42,18 @@ before it has been assigned. In the first example, we are using the `var`
 keyword, which `hoists` the variable assignment to the top of the execution,
 whereas the `const` keyword does not do this.
 
+TODO - talk about the temporal dead zone
+
 ## Let
 
-The `let` keyword assignment has been around for some time, but with ES2015
-it has some new features associated with it. It has been said that `let` is the
-new `var`, but not because they are the same thing. The `let` keyword now
-defines a block scoped variable, just like const. It has the same properties as
+The `let` keyword defines a block scoped variable, just like const, 
+however you *can* reassign to a variable declared with 'let'. It has the same properties as
 described above, and allows you to have finer grained control over the scoping
 of your variables as opposed to `var`.
 
 ## Wrapping up
 
-Constants are great to use in most cases. Use `let` when you will need to
+Constants are great to use in most cases. Use `let` when you need to
 reassign a variable for any reason, and `const` when you know it's only a
 single use variable.
 
