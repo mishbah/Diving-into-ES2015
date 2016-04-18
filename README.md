@@ -17,9 +17,7 @@ useful. Let's add a constructor:
 ```js
 class Vehicle {
   constructor(make, model, year) {
-    this.make = make
-    this.model = model
-    this.year = year
+    Object.assign(this, { make, model, year })
   }
 }
 ```
