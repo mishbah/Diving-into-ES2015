@@ -1,7 +1,7 @@
 # Lesson 2.2 - How to use modules
 
-In the last lesson we ran through all the different ways to import and export
-modules. But how and why do we put this to use? Because JavaScript has never
+In the last lesson we ran through the different ways to import and export
+modules, so how do we put this to use? Because JavaScript has never
 had a built in module system, we tend to see a lot of code out in the wild
 that is just a whole bunch of unrelated code thrown together into a huge file.
 
