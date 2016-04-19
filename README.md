@@ -16,7 +16,7 @@ var Foo = function(x) {
 
 Foo.prototype = {
   add: function(y) {
-    returh this.x + y
+    return this.x + y
   }
 }
 ```
