@@ -21,8 +21,8 @@ Let's create a function that will calculate the total amount that an item
 on a receipt will cost with (or without) tax.
 
 ```js
-export function calculateTax(price, taxRate, taxable) {
-  if (!taxable) return 0;
+export function calculateTax(price, taxRate, isTaxable) {
+  if (!isTaxable) return 0;
   return price * taxRate / 100;
 }
 ```
