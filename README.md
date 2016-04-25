@@ -68,9 +68,18 @@ import add from './my_math_module';
 ```
 
 Now we will have the `add` function available in our file! It's that easy!
-You can also use some destructuring like syntax to import multiple exports
-all at once. Assuming that we changed out module back to it's original form
-from above where we were exporting multiple items, we can import them like so:
+You can also use some destructuring syntax to import multiple exports
+all at once. If we change our module back to it's original form like this:
+
+```js
+export function add(x, y) {
+  return x + y;
+}
+
+export const foo = 1;
+```
+
+We can then import both of these items like so:
 
 ```js
 import { add, foo } from './my_math_module';
