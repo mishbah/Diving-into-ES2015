@@ -1,99 +1,87 @@
-# Lesson 5.2 - Parameter Handling
+# Lesson 5.3 - Parameter Handling in the Real World
 
-We're not done with the great new features that ES2015 has when it comes to
-dealing with parameters and variables. There are more powerful new features
-available that help with handling parameters in functions.
+So far in this lesson we have learned some great new ES2015 features that
+have everything to do with parameter handling. Let's write a little bit of code
+so that we can see how this might help us in the real world.
 
-## Default Parameter Values
+In our last lesson we created a receipt calculator that took a list of items
+and a tax rate and calculated the sub-total and total tax for all the items.
 
-If you've ever seen code that looks like this and cringed:
+Let's open that back up in the Node REPL and see what happens if we omit the
+`taxRate` variable from our function:
+
+```bash
+$ babel-node
+> var { items, calculate } = require('./calculate')
+> calculate(items)
+-> Error!
+
+Uh oh! What happened there? Unfortunately, because we are using `positional`
+arguments here, we can't omit the first `taxRate` variable and also include
+the `items` variable. When we omit the `taxRate` variable, the `items` variable
+now becomes the tax rate! Well this doesn't make having default values for
+parameters very useful now does it? We can get around this by using a JavaScript
+object in the function, along with some crafty destructuring assignment. We're
+also going to modify our `calculateTax` function in the math module to use this
+feature. Let's take a look:
+
+`math.js`
 
 ```js
-function add(x, y) {
-  if (!x) x = 1;
-  if (!y) y = 2;
-  return x + y;
+export function calculateTax({ price, taxRate, taxable }) {
+  ...
 }
 ```
 
-This is typically how you would have handled assigning default parameters to
-a function in past versions of JavaScript. With new ES2015 features, this
-can now be handled seamlessly:
+`calculator.js`
 
 ```js
-function add(x = 1, y = 2) {
-  return x + y;
+export function calculate({ taxRate = 8, items = [] }) {
+  return items.reduce((prev, curr) => {
+    prev.total += curr.price;
+    prev.totalTax += calculateTax({ taxRate, ...curr });
+    return prev;
+  }, {
+    total: 0,
+    totalTax: 0
+  });
 }
 ```
 
-Now that's pretty neat! What we're saying there is exactly the same as the
-code above. If no `x` value is passed in, then assign it the value of `1`. The
-same goes for the `y` value. This new feature makes it very easy to assign
-default values to your function parameters, without all the extra code to
-check if they exist like we did above. Awesome!
+So what happened there? The first thing we did was pretty simple. For both
+functions we added curly braces to the functions arguments. By using a
+combination of default parameter values and destructuring we are now able to
+pass in only a list of items and still get the default tax rate. This is because we
+are no longer using positional arguments and are able to use object keys to
+reference variables.
 
-## Rest Parameters
+You'll notice the second thing we did was change how we were passing arguments
+into the `calculateTax` function. What we're doing here is using the spread
+operator to assign all of the values of the `item` object to the object that
+we are passing into the `calculateTax` function! Now we just need to change the
+way we call the function in the REPL:
 
-We're not done yet! There's another great new feature that we can use in a
-variety of ways to make parameter declarations for functions incredibly
-dynamic and easy to use. The next one we'll talk about is rest parameters.
-
-Using rest parameters, we can allow a dynamic number of arguments to be passed
-into a function:
-
-```js
-function add(...numbers) {
-  let total = 0;
-  numbers.forEach(function(number) {
-    total += number;
-  })
-  return total;
-}
+```bash
+> calculate({ items })
+-> { total: 45.45, totalTax: 1.876 }
 ```
 
-So what's going on there? Any time you declare a parameter in a function
-using the spread operator, it returns all of those parameters as an array.
-We can then just iterate over the collection of params and perform our
-addition! This is very handy in a lot of cases.
+Awesome! We were able to fix our problem using destructuring and enhanced
+parameter handling! ES2015 is looking really great so far! If you were
+wondering about the function call:
 
-It also works when you have leading parameters:
-```js
-function product(multiplier = 1, ...numbers) {
-  let total = 0;
-  numbers.forEach(function(number) {
-    total += number;
-  })
-  return total * multiplier;
-}
+```bash
+> calculate({ items })
 ```
 
-## Spread Operator
+Using our new found ES2015 superpowers, we are able to not only destructure
+objects using that syntax, but we can also structure objects using the same
+syntax. What you see above is exactly the same as: `{ items: items }`. Because
+our variable name is the *same* as the name of the key we want in the object
+we can assign it this way. It's just a convenient shorthand.
 
-Great! We're learning some really cool new features here, and there's one
-more that we haven't yet uncovered. It's called the spread operator. The spread
-operator allows us to assign an entire array of variables all in one fell
-swoop. Here's an example:
+## Moving On....
 
-```js
-let ary = [1, 2, 3]
-let other = [4, 5, 6, ...ary]
-console.log(other)
--> [4, 5, 6, 1, 2, 3]
-```
-
-That's pretty neat! We were able to define a new array that contained the
-contents of the other array by simply using the spread operator! You can also
-use this syntax to unpack strings into an array:
-
-```js
-let str = 'foo'
-let chars = [ ...str ]
-console.log(chars)
--> ['f', 'o', 'o']
-```
-
-## Moving on...
-
-Awesome! We've learned a lot about new ways to handle variables in ES2015. Let's
-write a few code examples so that we can see how we would use this stuff in the
-real world!
+We learned a great deal in this lesson about all the great new ways to handle
+parameters, variables, and objects using ES2015. Let's move on and see how
+template strings can make our lives easier!
