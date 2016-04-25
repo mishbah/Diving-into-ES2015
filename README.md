@@ -1,141 +1,97 @@
-# Lesson 3.1 - Destructuring Assignment
+# Lesson 3.1 - Constants and Let
 
-ES2015 comes with a brand new way to assign variables when dealing with arrays
-and objects. This new feature is called `destructuring assignment` and it
-allows you to easily assign variables from array elements or key/value pairs
-for an object. Let's dive right in shall we?
-
-## Array Matching
-
-The first type of destructuring we're going to talk about is array matching.
-Put simply, this feature allows you to assign a list of variables to matching
-indices in arrays. Let's take a look at this code example so that we can
-better see how this works.
+ES2015 introduced a new variable type: `const`. This new variable type should
+not be confused with constants in other languages as it doesn't mean the value is constant at all!
+It only means that the variable cannot be reassigned, therefore it has a constant reference. This is illegal:
 
 ```js
-> var list = [1, 2, 3]
-> var [a, b, c] = list
-> console.log(a, b, c)
--> 1 2 3
+const x = 1
+x = 2 // Illegal
 ```
 
-As you can see there, we were able to easily assign three variables, `a`, `b`,
-and `c`, to variables that match the indices of the array that we matched.
-It is also possible to skip an index when doing this type of assignment.
+However, if the const is assigned an object such as an array, you can mutate
+the array:
 
 ```js
-> var list = [1, 2, 3]
-> var [a, ,c] = list
-> console.log(a, c)
--> 1 3
+const ary = [1, 2, 3]
+ary.push(4) // This is allowed
 ```
 
-It's as easy as just not passing in a new variable name at the index that you
-would like to skip, and the variable won't be assigned.
+You can mutate objects in the same way. This is allowed because you are adding
+a value to the array or object, and not reassigning. The `const` assignment
+only prevents you from reassigning the variable to a new value, but does not
+prevent you from mutating the value.
 
-## Object Matching
-
-Another great destructuring assignment that is now available to us is object
-matching. With object matching we can assign variables in much the same way
-that we did using array matching, but in this case we will be matching our
-variable names to the object keys, instead of array indices.
+Another thing to note about the `const` type is that it cannot be used before
+assignment. Whereas this is perfectly acceptable:
 
 ```js
-> var obj = { a: 1, b: 2, c: 3 }
-> var { a, b, c } = obj
-> console.log(a, b, c)
--> 1 2 3
+typeof bar
+var bar = 1
 ```
 
-As you can see, the syntax differs slightly here in that we're using curly
-braces for the destructuring assignment, to match the fact that we are
-destructuring on an object. This works equally as well for deeply nested
-objects.
+This is not allowed:
 
 ```js
-> var obj = { a: { b: 1, c: { d: 2 } } }
-> var { a: { b, c: { d } } } = obj
-> console.log(b, d)
--> 1, 2
+typeof bar
+const bar = 1
 ```
 
-Now you can very easily extract a value from a deeply nested object using
-this new destructuring assignment! This is a great new feature.
+The above will throw an error because you are attempting to access the variable
+before it has been assigned. In the first example, we are using the `var`
+keyword, which `hoists` the variable assignment to the top of the execution,
+whereas the `const` keyword does not do this.
 
-We can use these same types of assignments in functions.....
+## Let
 
-## Parameter Context Matching
+The `let` keyword defines a block scoped variable, just like const,
+however you *can* reassign to a variable declared with 'let'. It has the same properties as
+described above, and allows you to have finer grained control over the scoping
+of your variables as opposed to `var`.
 
-Using parameter context matching we can use this same type of destructuring
-assignment syntax in the definition of function parameters. Let's take a look
-at the following example.
+## The Temporal Dead Zone
+
+The 'Temporal Dead Zone' is a scary sounding term that refers to a new set of
+ECMAScript semantics regarding scoping that has been introduced in ES2015.
+Essentially, it refers to a grey area in which undefined variables cannot yet
+be accessed. Take the following example.
 
 ```js
-function print({ value }) {
-  console.log(value)
-}
+foo = 2
+let foo = 1
 ```
 
-In this example, the `print` function is expecting to receive as an argument,
-an object with a key of `value`.
+In this case, `foo` has not yet been defined, and therefore we can not re-assign
+it. However, if the variable is accessed inside of a function that has yet
+to be called, you *can* write code that relies on it before the declaration:
 
 ```js
-> print({value: "Hello World!"})
--> Hello World!
+const readFoo = function() { return foo }
+let foo = 1
 ```
 
+This is perfectly valid, because the function we created has not yet been
+invoked. As long as we do not invoke the function before declaring the variable,
+this will not produce any errors.
 
-You can also extend this to work in various ways:
+However, if we tried to do this:
 
 ```js
-> var obj = { value: 'Hello' }
-> print(obj)
--> Hello
+const readFoo = function() { return foo }
+readFoo()
+let foo = 1
 ```
 
-Here we just passed in a predefined object that fits what your function is
-looking for. But what if we had a variable named `value`, that already contains
-the value that we want to print? ES2015 has something for that too!
+This would throw an error because we invoked the `readFoo` function before the
+`foo` variable was defined.
 
-```js
-> var value = 'Hello World!'
-> print({ value })
--> Hello World!
-```
+## Wrapping up
 
-That's really powerful and flexible! This allows you to write a lot less code,
-and to easily refactor existing code.
+Constants are great to use in most cases. Use `let` when you need to
+reassign a variable for any reason, and `const` when you know it's only a
+single use variable.
 
-You might think that this has all been really amazing, but we're not done yet!
-There's one more great feature, and it really puts the cherry on top of
-everything we have covered so far.
+## Moving on
 
-## Fail Soft Destructuring
-
-When attempting to assign a variable via destructuring, if the indice or object
-key does not exist, that variable will simply be `undefined`, instead of
-throwing an error. That's not all though, we can actually assign a default
-value if we want also! Let's see this in action.
-
-```js
-> var list = [1, 2]
-> var [a = 10, b = 6, c = 40, d] = list
-> console.log(a, b, c, d)
--> 1 2 40 undefined
-```
-
-This also works for objects:
-
-```js
-> var obj = { a: 1, b: 2 }
-> var { a = 10, b = 5, c = 8, d }
-> console.log(a, b, c, d)
--> 1 2 8 undefined
-```
-
-Awesome! This is going to make variable assignment a breeze!
-
-## Moving on...
-
-This has been a great introduction to destructuring assignments in ES2015,
-but let's keep moving and see what we can learn about string templates!
+That's it for our exploration of the new `const` and `let` types in ES2015, let's move on
+and start learning about block scoping!
