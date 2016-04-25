@@ -1,77 +1,99 @@
-# Lesson 5.2 - Arrow Functions Everywhere
+# Lesson 5.2 - Parameter Handling
 
-Now that we know how to make use of arrow functions, let's refactor our code
-to use them!
+We're not done with the great new features that ES2015 has when it comes to
+dealing with parameters and variables. There are more powerful new features
+available that help with handling parameters in functions.
 
-Let's start with our `strip` function in the `strings.js` file:
+## Default Parameter Values
+
+If you've ever seen code that looks like this and cringed:
 
 ```js
-export function strip(pieces, ...value) {
-  let str = '';
-
-  pieces.forEach((piece, index) => {
-    let val = value[index] || ''
-    str = str + piece + val
-  });
-
-  return str.replace(/^\s*/gm, '');
+function add(x, y) {
+  if (!x) x = 1;
+  if (!y) y = 2;
+  return x + y;
 }
 ```
 
-What we did there was replace the callback function in the `forEach` loop to
-be an arrow function. This doesn't net us a *ton* of extra room or readability,
-but it's a good idea to be consistent throughout your codebase, and I find it
-to be good practice to use arrow functions when creating anonymous callback
-functions like this.
-
-Next, we can move on to the `printReceipt` function in the `printer.js` file.
-This function will benefit a lot from this refactor. Let's tak a look at where
-we're mapping over the prices of the items and see if we can improve upon
-that:
+This is typically how you would have handled assigning default parameters to
+a function in past versions of JavaScript. With new ES2015 features, this
+can now be handled seamlessly:
 
 ```js
-export function printReceipt(items) {
-  let {total, totalTax} = calculate({ items });
-
-  return strip`
-    ${items.map(item => item.price).join('\n')}
-    ${'-'.repeat(30)}
-    Sub-Total: ${total}
-    ${'='.repeat(30)}
-    Tax: ${totalTax}
-    ${'='.repeat(30)}
-    Total: ${total + totalTax}
-  `;
+function add(x = 1, y = 2) {
+  return x + y;
 }
 ```
 
-That's better! We've reduced that callback function to three words and one
-fat arrow! And it's still very readable and clear what's going on. This is
-great!
+Now that's pretty neat! What we're saying there is exactly the same as the
+code above. If no `x` value is passed in, then assign it the value of `1`. The
+same goes for the `y` value. This new feature makes it very easy to assign
+default values to your function parameters, without all the extra code to
+check if they exist like we did above. Awesome!
 
-Did you also notice that we were able to drop the parentheses from the callback
-function we used when mapping over the items? You can do this when there is
-only one argument being passed into the function. Really cool!
+## Rest Parameters
 
-The last change we're going to make is in the `calculate` function in the
-`calculator.js` file. Here we're going to do the same thing we did in the
-`strip` function:
+We're not done yet! There's another great new feature that we can use in a
+variety of ways to make parameter declarations for functions incredibly
+dynamic and easy to use. The next one we'll talk about is rest parameters.
+
+Using rest parameters, we can allow a dynamic number of arguments to be passed
+into a function:
 
 ```js
-export function calculate({ taxRate = 8, items = [] }) {
-  let total = 0, totalTax = 0;
-
-  items.forEach(item => {
-    total += item.price;
-    totalTax += calculateTax({ taxRate, ...item });
-  });
-
-  return {total, totalTax};
+function add(...numbers) {
+  let total = 0;
+  numbers.forEach(function(number) {
+    total += number;
+  })
+  return total;
 }
 ```
 
-Great! Our modules are looking better and better!
+So what's going on there? Any time you declare a parameter in a function
+using the spread operator, it returns all of those parameters as an array.
+We can then just iterate over the collection of params and perform our
+addition! This is very handy in a lot of cases.
 
-## Moving on
-We're learning a lot about ES2015, but we're not done yet! Let's move on to
-the next lesson where we'll talk about variables and scoping!
+It also works when you have leading parameters:
+```js
+function product(multiplier = 1, ...numbers) {
+  let total = 0;
+  numbers.forEach(function(number) {
+    total += number;
+  })
+  return total * multiplier;
+}
+```
+
+## Spread Operator
+
+Great! We're learning some really cool new features here, and there's one
+more that we haven't yet uncovered. It's called the spread operator. The spread
+operator allows us to assign an entire array of variables all in one fell
+swoop. Here's an example:
+
+```js
+let ary = [1, 2, 3]
+let other = [4, 5, 6, ...ary]
+console.log(other)
+-> [4, 5, 6, 1, 2, 3]
+```
+
+That's pretty neat! We were able to define a new array that contained the
+contents of the other array by simply using the spread operator! You can also
+use this syntax to unpack strings into an array:
+
+```js
+let str = 'foo'
+let chars = [ ...str ]
+console.log(chars)
+-> ['f', 'o', 'o']
+```
+
+## Moving on...
+
+Awesome! We've learned a lot about new ways to handle variables in ES2015. Let's
+write a few code examples so that we can see how we would use this stuff in the
+real world!
