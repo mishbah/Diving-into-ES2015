@@ -122,6 +122,30 @@ We can use most of the same syntax for importing modules as well!
 import * as math from './my_math_module';
 ```
 
+You can also import the default as well as other exports. Let's say our module
+looked like this:
+
+```js
+export default function add(x, y) {
+  return x + y;
+}
+
+export const foo = 1;
+```
+
+You can then import both of those like this:
+
+```js
+import add, { foo } from './my_math_module';
+```
+
+What's that? You want to see more? Ok, how about named imports and exports!
+
+```js
+import add as a from './my_math_module';
+export add as a from './my_math_module';
+```
+
 ## Moving on...
 
 Fantastic! We've learned a bunch about how the new module system works in ES2015.
