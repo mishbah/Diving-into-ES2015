@@ -1,99 +1,148 @@
-# Lesson 3.2 - Parameter Handling
+# Lesson 3.2 - Block Scoped Variables
 
-We're not done with the great new features that ES2015 has when it comes to
-dealing with parameters and variables. There are more powerful new features
-available that help with handling parameters in functions.
+Let's explore block scoped variables shall we? Block scoped variables are
+simply variables that are local to the block in which they were defined. Let's
+explore this a bit with some code samples.
 
-## Default Parameter Values
+## The Basics
 
-If you've ever seen code that looks like this and cringed:
+If we were to use `var` to declare a variable in this snippet, everything would
+work just fine:
 
 ```js
-function add(x, y) {
-  if (!x) x = 1;
-  if (!y) y = 2;
-  return x + y;
+for (var i = 0; i < 3; i++) {
+  var j = i * i
+}
+
+console.log(j) // This will print '4', and is fine
+```
+
+But let's say we use `let` to declare that variable:
+
+```js
+for (let i = 0; i < 3; i++) {
+  let j = i * i
+}
+
+console.log(j) // This will throw, because let is local to the `for` loop.
+```
+
+This is a subtle difference, but an important one. This really helps to keep
+variables scoped to their local block, and avoids confusion for other developers
+(and yourself).
+
+## Nested Scopes
+
+Scoping also works in situations where the blocks are nested:
+
+```js
+function foo() {
+  let bar = 'Hello World!';
+
+  return function() {
+    return bar;
+  }
 }
 ```
 
-This is typically how you would have handled assigning default parameters to
-a function in past versions of JavaScript. With new ES2015 features, this
-can now be handled seamlessly:
+In this example, the returned function has access to the `bar` variable because
+it was declared in the outer scope. The functioned that is returned from the
+`foo` function has access to all variables declared in the scope of the `foo`
+function.
+
+However, this will throw an error:
 
 ```js
-function add(x = 1, y = 2) {
-  return x + y;
+function foo() {
+  for (let i = 0; i < 3; i++) {
+    let j = i;
+  }
+
+  return j; // This is not allowed, as j was declared inside a different scope
 }
 ```
 
-Now that's pretty neat! What we're saying there is exactly the same as the
-code above. If no `x` value is passed in, then assign it the value of `1`. The
-same goes for the `y` value. This new feature makes it very easy to assign
-default values to your function parameters, without all the extra code to
-check if they exist like we did above. Awesome!
-
-## Rest Parameters
-
-We're not done yet! There's another great new feature that we can use in a
-variety of ways to make parameter decalrations for functions incredibly
-dynamic and easy to use. The next one we'll talk about is rest parameters.
-
-Using rest parameters, we can allow a dynamic number of arguments to be passed
-into a function:
+Taking this one step farther, we can do something like this:
 
 ```js
-function add(...numbers) {
-  let total = 0;
-  numbers.forEach(function(number) {
-    total += number;
-  })
-  return total;
+let j = 0;
+
+function foo() {
+  for (let i = 0; i < 3; i++) {
+    j += i;
+  }
+}
+
+foo()
+console.log(j)
+-> 6
+```
+
+This isn't very good programming practice, but it clearly demonstrates how
+nested scoping works. The `j` variable is available in all child scopes.
+
+## Scoping with switch statements
+
+Scoping also applies to switch statements. Adding curly braces to your `case`
+statements will encapsulate them in their own scope.
+
+```js
+const i = 0;
+
+switch (i) {
+  case 0:
+    const label = 'zero';
+    console.log(label);
+    break;
+  case 1:
+    const label = 'one';
+    console.log(label);
+    break;
 }
 ```
 
-So what's going on there? Any time you declare a parameter in a function
-using the spread operator, it returns all of those parameters as an array.
-We can then just iterate over the collection of params and perform our
-addition! This is very handy in a lot of cases.
+This will throw an error because you are attempting to define the `label`
+const twice inside of the same scope.  However, if we rewrite that like this:
 
-It also works when you have required parameters:
 ```js
-function product(multiplier = 1, ...numbers) {
-  let total = 0;
-  numbers.forEach(function(number) {
-    total += number;
-  })
-  return total * multiplier;
+const i = 0;
+
+switch (i) {
+  case 0: {
+    const label = 'zero';
+    console.log(label);
+    break;
+  }
+  case 1: {
+    const label = 'one';
+    console.log(label);
+    break;
+  }
 }
 ```
 
-## Spread Operator
+This is perfectly acceptable, because we have created an isolated scope for
+each case statement.
 
-Great! We're learning some really cool new features here, and there's one
-more that we haven't yet uncovered. It's called the spread operator. The spread
-operator allows us to assign an entire array of variables all in one fell
-swoop. Here's an example:
+## Wrapping up
 
-```js
-let ary = [1, 2, 3]
-let other = [4, 5, 6, ...ary]
-console.log(other)
--> [4, 5, 6, 1, 2, 3]
-```
-
-That's pretty neat! We were able to define a new array that contained the
-contents of the other array by simply using the spread operator! You can also
-use this syntax to unpack strings into an array:
+Anything inside curly braces ({}) is considered to be inside of a block, and
+you can create a block all by itself:
 
 ```js
-let str = 'foo'
-let chars = [ ...str ]
-console.log(chars)
--> ['f', 'o', 'o']
+{
+  // This is inside of an isolated block scope
+  let foo = 1;
+}
+
+console.log(foo); // `foo` is undefined in this scope
 ```
 
-## Moving on...
+Constants behave in exactly the same way as `let` when it comes to scoping.
+It is for this reason that it is preferred to use `const` and `let` over `var`
+as often as possible.
 
-Awesome! We've learned a lot about new ways to handle variables in ES2015. Let's
-write a few code examples so that we can see how we would use this stuff in the
-real world!
+## Moving on
+Easy! Block scoped variables are a simple concept, and using the right type
+of variable declarations is crucial to writing good, clean code. Let's move
+on and discuss block scoped functions!
