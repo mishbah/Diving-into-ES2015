@@ -14,7 +14,7 @@ Let's open that back up in the Node REPL and see what happens if we omit the
 $ babel-node
 > var { items, calculate } = require('./calculate')
 > calculate(items)
--> Error!
+-> Cannot read property 'reduce' of undefined
 
 Uh oh! What happened there? Unfortunately, because we are using `positional`
 arguments here, we can't omit the first `taxRate` variable and also include
