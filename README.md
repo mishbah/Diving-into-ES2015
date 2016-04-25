@@ -1,7 +1,7 @@
 # Lesson 4.2 - Arrow Functions Everywhere
 
 So far in this lesson we have learned a bit about how arrow functions work.
-Let's write a little bit of code so that we can see how this might help us in 
+Let's write a little bit of code so that we can see how this might help us in
 the real world.
 
 We're going to create a receipt calculator function that leverages this feature.
@@ -56,17 +56,17 @@ export function calculate(taxRate, items) {
 }
 ```
 
-Awesome! Now we've got a function that takes two arguments! Let's write the meat 
+Awesome! Now we've got a function that takes two arguments! Let's write the meat
 of the function now:
 
 ```js
 export function calculate(taxRate, items) {
   return items.reduce((prev, curr) => {
     if (curr.isTaxable) {
-      prev.total += curr.value;
-      prev.totalTax += curr.value + (curr.value * taxRate / 100);
+      prev.total += curr.price;
+      prev.totalTax += curr.price + (curr.price * taxRate / 100);
     } else {
-      prev.total += curr.value;
+      prev.total += curr.price;
     }
     return prev;
   }, {
@@ -76,7 +76,11 @@ export function calculate(taxRate, items) {
 }
 ```
 
-Ok that looks like it will work, but I think we should leverage the `math`
+If you're not familiar with the `reduce` function that we used in the above
+code, feel free to check out how it's used here:
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
+
+That looks like it will work, but I think we should leverage the `math`
 module that we created in the last lesson to make this easier! Let's import it
 and put it to work:
 
@@ -89,8 +93,8 @@ Ok it's imported, now let's use it:
 ```js
 export function calculate(taxRate, items) {
   return items.reduce((prev, curr) => {
-    prev.total += curr.value;
-    prev.totalTax += calculateTax(curr.value, taxRate, curr.isTaxable);
+    prev.total += curr.price;
+    prev.totalTax += calculateTax(curr.price, taxRate, curr.isTaxable);
   }, {
     total: 0,
     totalTax: 0
@@ -105,10 +109,11 @@ list of items. Let's open up the REPL and try it out!
 $ babel-node
 > var { items, calculate } = require('./calculate')
 > calculate(8, items)
--> 47.32599999999999
+-> { total: 45.45, totalTax: 1.876 }
 ```
 
-Cool! It works!
+Cool! It works! We've now got a handy little function that will calculate our
+sub-total and the total tax for a list of items. Now we're getting somewhere!
 
 ## Moving on
 We're learning a lot about ES2015, but we're not done yet! Let's move on to
