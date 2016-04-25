@@ -1,7 +1,7 @@
 # Lesson 2.2 - How to use modules
 
-In the last lesson we ran through the different ways to import and export
-modules, so how do we put this to use? Because JavaScript has never
+In the last lesson we ran through all the different ways to import and export
+modules. But how and why do we put this to use? Because JavaScript has never
 had a built in module system, we tend to see a lot of code out in the wild
 that is just a whole bunch of unrelated code thrown together into a huge file.
 
@@ -21,8 +21,8 @@ Let's create a function that will calculate the total amount that an item
 on a receipt will cost with (or without) tax.
 
 ```js
-export function calculateTax(price, taxRate, taxable) {
-  if (!taxable) return 0;
+export function calculateTax(price, taxRate, isTaxable) {
+  if (!isTaxable) return 0;
   return price * taxRate / 100;
 }
 ```
@@ -37,7 +37,7 @@ REPL and we'll test it out.
 $ babel-node
 > var { calculateTax } = require('./math')
 > calculateTax(10, 8, true)
--> 0.8
+-> .8
 > calculateTax(10, 8, false)
 -> 0
 ```
