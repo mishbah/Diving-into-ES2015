@@ -97,8 +97,9 @@ go ahead and do that in the root of your code directory that we created.
 
 It's worth mentioning that Babel is not the only tool available to handle the
 transpiling of ES2015 code to ES5. [Traceur](https://github.com/google/traceur-compiler)
-is another good choice that is made by Google. We're going to use Babel here
-because it is widely adopted and familiar to a lot of people.
+is another good choice that is made by Google. [rollup.js](http://rollupjs.org/)
+is also a good choice. We're going to use Babel here because it is widely
+adopted and familiar to a lot of people.
 
 ## Next Lesson
 
