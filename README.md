@@ -1,107 +1,82 @@
-# Lesson 4.1 - New string functionality
+# Lesson 4.1 - Arrow Functions
 
-With ES2015 comes powerful new feature in handling string. Generally, it is
-referred to as `template literals`. You can now do really powerful things
-using interpolation. Let's get started shall we?!
+When working in JavaScript, the lexical scoping of `this` often causes a lot
+of problems with newer developers (and seasoned veterans at times). Lexical
+this can be described in this way. Every new function defines it's on `this`
+value, so when you want to reference a `this` that is outside of the scope of
+the function you have to use some tricks like assigning another variable to
+the value of `this` that you want to reference in a function.
 
-## Multi-line strings
-
-One of the first neat things about template literals is that they can span
-multiple lines:
-
-```js
-let myString = `
-  This is a multi line string,
-and it will preserve whitespace
-    and newline characters
-`
-```
-
-As you can see, this makes for creating long strings with newlines and whitespace
-a very easy thing to do.
-
-## String interpolation
-
-Another super cool feature that has been a long time coming is interpolation.
-Given an object `person`:
+This can be overcome, however, with the use of `Function.prototype.bind`. This
+will change code that looks like this:
 
 ```js
-let person = { name: 'Fred Flinstone', email: 'fred@slaterock.com' }
+let self = this;
+
+fetch('www.google.com').then(function(response) {
+  self.name = response.body.name;
+});
 ```
 
-We can use it in a string like so:
+to this:
 
 ```js
-let welcome = `Welcome ${person.name}! We will be sending you a welcome email to ${person.email} shortly!`
+fetch('www.sitepoint.com').then(function(response) {
+  this.name = response.body.name;
+}.bind(this));
 ```
 
-Awesome! Much nicer to read that a series of concatenated strings, don't you
-think?
+As you can see, we have avoided assigning an otherwise useless variable by
+simply binding the function to `this`. This works fine, but it can get a little
+tedious, and it can be easy to forget.
 
-It's also worth noting that anythin inside the `${ }` syntax will simply be
-evaludated as JavaScript so you can 'literally' put anything you want in there
-and it will be evaluated:
+Have no fear! ES2015 has your back with a new feature called `arrow functions`.
+Arrow functions automagically bind to the lexical `this`, so no need for
+`bind(this)`!
 
-```bash
-> console.log(`${2 * 2}`)
--> 4
-```
-
-## Custom interpolation
-
-You can also use custom interpolation to create interpolated 'functions' with
-custom behavior:
+That function from above can now be written as:
 
 ```js
-strip`
-   Welcome to Slate Rock ${person.name}
-   We have sent your welcom package to ${person.email}
-`
+fetch('www.sitepoint.com').then((response) => {
+  this.name = response.body.name;
+})
 ```
 
-Wait a minute?!?! What the heck is going on here? Ok let's break it down. The
-first thing we need is a function called `strip` that takes multiple arguments.
-Let's create this function. The purpose here will be to strip all leading white
-space from the multi line string.
+Wow, that's awesome! It also allows you to use some shorthand syntaxes that
+come in really handy, and often times make your code easier to read. For instance,
+you can force an implicit return statement by enclosing the function call in
+parentheses instead of curly braces:
 
 ```js
-export function strip(pieces, ...values) {
-  let str = '';
-
-  pieces.forEach(function(piece, index) {
-    let val = values[index] || '';
-    str += piece + val;
-  })
-
-  return str.replace(/^\s*/gm, '');
-}
+fetch('www.sitepoint.com').then((response) => (
+  response.body.name;
+));
 ```
 
-Ok there's our function. What's happening with that function call from up above
-there is we are actually calling the `strip` function with the template literal
-as the argument. Behind the scenes the template literal is being dissected into
-several parts. The first is an array of strings that is split anywhere the
-interpolation syntax is found. The `rest` of the arguments are the pieces of
-JavaScript themselves that have been evaluated.
-
-Let's take this string for example:
+The above function is equivalent to the following:
 
 ```js
-`Your name is ${person.name}`
+fetch('www.sitepoint.com').then((response) => {
+  return response.body.name;
+});
 ```
 
-That will produce the following arguments:
+You can even leave out the parentheses altogether!
 
 ```js
-strip(['Your name is', ''], 'Fred Flinstone')
+fetch('www.sitepoint.com').then(response => response.body.name);
 ```
 
-So what our little `strip` function is doing is grabbing all of the pure strings
-in the first argument, and then collecting the rest of the arguments into an
-array called `values`. We can then build the string ourselves (really, this is
-what JavaScript is doing behind the scenes) and add any extra functionality
-that we need to!
+or with destructuring
+
+```js
+fetch('www.sitepoint.com').then(({ body: { name } }) => name);
+```
+
+Wow! Now that's something. No more endless indentations for one line callback
+functions.
 
 ## Moving on
-Ok, so we've learned about template literals. Now let's put it into practice
-and expand on the code we've been writing...
+Well, this was a short lesson, but I am fairly certain that you will be using
+this new ES2015 feature more than just about any other. Let's move on and
+use this in some realy life examples with our ever evolving receipt calculator.
