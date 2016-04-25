@@ -1,88 +1,115 @@
-# Lesson 4.2 - Receipt Printer
+# Lesson 4.2 - Arrow Functions Everywhere
 
-Now that we know all about template literals, let's put them to use and create
-a function that will print out a receipt of all our items!
+So far in this lesson we have learned a bit about how arrow functions work.
+Let's write a little bit of code so that we can see how this might help us in 
+the real world.
 
-The first thing we will do is refactor our `calculate` function to return the
-total price and the total tax separately:
+We're going to create a receipt calculator function that leverages this feature.
+
+Let's go ahead and move into the directory that we established in the first
+lesson where we're going to hold all of our code for this tutorial and create
+a file called `calculator.js`. Once this is created go ahead and open it in your
+favorite text editor.
+
+Let's start by defining some sample data that we can export for easy testing
+in the console:
 
 ```js
-export function calculate({ taxRate = 8, items = [] }) {
-  let total = 0, totalTax = 0;
+export const items = [
+  { price: 10, isTaxable: true },
+  { price: 22, isTaxable: false },
+  { price: 13.45, isTaxable: true }
+]
+```
 
-  items.forEach(function(item) {
-    total += item.price;
-    totalTax += calculateTax({ taxRate, ...item });
-  })
+Great! We've set up a simple data structure here that holds a list of items
+that somebody is purchasing. Each of these items includes the cost of the
+item (price) and whether or not the item is taxable.
 
-  return {total, totalTax}
+Next we'll go ahead and start creating our function. Let's start with the
+shell of the function:
+
+```js
+export function calculate() {
+
 }
 ```
 
-Not a huge change here, all we did was keep two separate running totals for
-price and tax, and returned them in as an array.
-
-We are going to use the `strip` function from the last lesson to create this
-receipt, so let's go ahead and make a new file called `strings.js` and
-paste in the strip function:
+Now we've got a basic function, but unfortunately it doesn't do anything. Let's
+start by adding some parameters. There's a few things this function will need
+to know in order to be useful. The first thing it's going to need to know is
+the rate at which to apply tax to a particular item.
 
 ```js
-export function strip(pieces, ...value) {
-  let str = '';
-  pieces.forEach((piece, index) => {
-    let val = value[index] || '';
-    str = str + piece + val;
-  })
-  return str.replace(/^\s*/gm, '');
+export function calculate(taxRate) {
+
 }
 ```
 
-Ok great! Now it's as simple as importing the modules we need and creating
-a function that will print out a receipt! Lets create a file called `printer.js`
-and create our function:
+Ok great, but we're going to need more. We also need to have a list of items
+to iterate through in order to calculate the total. Let's add that as the
+items variable:
 
 ```js
-import { strip } from './strings';
-import { calculate } from './calculator';
+export function calculate(taxRate, items) {
 
-export function printReceipt(items) {
-  let {total, totalTax} = calculate({ items });
-
-  return strip`
-    ${items.map(item => item.price).join('\n')}
-    ${'-'.repeat(30)}
-    Sub-Total: ${total}
-    ${'='.repeat(30)}
-    Tax: ${totalTax}
-    ${'='.repeat(30)}
-    Total: ${total + totalTax}
-  `;
 }
 ```
 
-That's it! So what's happening here? The first thing we did was calculate the
-total price and total tax using our calculate function, and assigned the values
-to `total` and `totalTax` variables using array matching. Then we used our custom
-template literal called `strip` to print out our receipt! Let's try it out in
-the console:
+Awesome! Now we've got a function that takes two arguments! Let's write the meat 
+of the function now:
+
+```js
+export function calculate(taxRate, items) {
+  return items.reduce((prev, curr) => {
+    if (curr.isTaxable) {
+      prev.total += curr.value;
+      prev.totalTax += curr.value + (curr.value * taxRate / 100);
+    } else {
+      prev.total += curr.value;
+    }
+    return prev;
+  }, {
+    total: 0,
+    totalTax: 0
+  });
+}
+```
+
+Ok that looks like it will work, but I think we should leverage the `math`
+module that we created in the last lesson to make this easier! Let's import it
+and put it to work:
+
+```js
+import { calculateTax } from './math';
+```
+
+Ok it's imported, now let's use it:
+
+```js
+export function calculate(taxRate, items) {
+  return items.reduce((prev, curr) => {
+    prev.total += curr.value;
+    prev.totalTax += calculateTax(curr.value, taxRate, curr.isTaxable);
+  }, {
+    total: 0,
+    totalTax: 0
+  });
+}
+```
+
+Great! We've now got a function that we can use to calculate a total from a
+list of items. Let's open up the REPL and try it out!
 
 ```bash
 $ babel-node
-> var { items } = require('./calculator')
-> var { printReceipt } = require('./printer')
-> console.log(printReceipt(items))
-->
-10
-22
-13.45
-------------------------------
-Sub-Total: 45.45
-==============================
-Tax: 1.876
-==============================
-Total: 47.326
+> var { items, calculate } = require('./calculate')
+> calculate(8, items)
+-> 47.32599999999999
 ```
 
+Cool! It works!
+
 ## Moving on
-Template literals are awesome! Let's move on now and find out what this wacky
-new syntax called arrow functions are!
+We're learning a lot about ES2015, but we're not done yet! Let's move on to
+the next lesson where we'll talk about parameter handling and destructuring!
