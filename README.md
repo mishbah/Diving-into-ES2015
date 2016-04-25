@@ -2,8 +2,7 @@
 
 Block scoped functions work very much the same way that block scoped variables
 do. You mave have seen the widely used IIFE (Immediately Invoked Function Expression)
-syntax. This is done to prevent the
-function declarations from polluting the global namespace.
+syntax. This is done to prevent the function declarations from polluting the global namespace.
 
 ES2015 to the rescue again! What used to look like this:
 
