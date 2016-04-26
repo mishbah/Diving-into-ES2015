@@ -28,7 +28,7 @@ feature. Let's take a look:
 `math.js`
 
 ```js
-export function calculateTax({ price, taxRate, taxable }) {
+export function calculateTax({ price, taxRate, isTaxable }) {
   ...
 }
 ```
@@ -39,7 +39,7 @@ export function calculateTax({ price, taxRate, taxable }) {
 export function calculate({ taxRate = 8, items = [] }) {
   return items.reduce((prev, curr) => {
     prev.total += curr.price;
-    prev.totalTax += calculateTax({ taxRate, ...curr });
+    prev.totalTax += calculateTax({ taxRate, price: curr.price, isTaxable: curr.isTaxable });
     return prev;
   }, {
     total: 0,
