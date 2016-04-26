@@ -9,12 +9,9 @@ paste in the strip function:
 
 ```js
 export function strip(pieces, ...value) {
-  let str = '';
-  pieces.forEach(function(piece, index) {
-    let val = value[index] || '';
-    str += piece + val;
-  })
-  return str.replace(/^\s*/gm, '');
+  return pieces.reduce((prev, curr, index) => (
+    prev += curr + (value[index] || '')
+  ), '').replace(/^\s*/gm, '');
 }
 ```
 
