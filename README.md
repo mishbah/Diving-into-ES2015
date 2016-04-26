@@ -1,148 +1,71 @@
-# Lesson 6.2 - Block Scoped Variables
+# Lesson 6.2 - Receipt Printer
 
-Let's explore block scoped variables shall we? Block scoped variables are
-simply variables that are local to the block in which they were defined. Let's
-explore this a bit with some code samples.
+Now that we know all about template literals, let's put them to use and create
+a function that will print out a receipt of all our items!
 
-## The Basics
-
-If we were to use `var` to declare a variable in this snippet, everything would
-be just fine:
+We are going to use the `strip` function from the last lesson to create this
+receipt, so let's go ahead and make a new file called `utils-strings.js` and
+paste in the strip function:
 
 ```js
-for (var i = 0; i < 3; i++) {
-  var j = i * i
-}
-
-console.log(j) // This will print '4', and is fine
-```
-
-But let's say we use `let` to declare that variable:
-
-```js
-for (let i = 0; i < 3; i++) {
-  let j = i * i
-}
-
-console.log(j) // This will throw, because let is local to the `for` loop.
-```
-
-This is a subtle difference, but an important one. This really helps to keep
-variables scoped to their local block, and avoids confusion for other developers
-(and yourself).
-
-## Nested Scopes
-
-Scoping also works in situations where the blocks are nested:
-
-```js
-function foo() {
-  let bar = 'Hello World!';
-
-  return function() {
-    return bar;
-  }
+export function strip(pieces, ...value) {
+  let str = '';
+  pieces.forEach(function(piece, index) {
+    let val = value[index] || '';
+    str += piece + val;
+  })
+  return str.replace(/^\s*/gm, '');
 }
 ```
 
-In this example, the returned function has access to the `bar` variable because
-it was declared in the outer scope. The functioned that is returned from the
-`foo` function has access to all variables declared in the scope of the `foo`
-function.
-
-However, this will throw an error:
+Ok great! Now it's as simple as importing the modules we need and creating
+a function that will print out a receipt! Lets create a file called `printer.js`
+and create our function:
 
 ```js
-function foo() {
-  for (let i = 0; i < 3; i++) {
-    let j = i;
-  }
+import { strip } from './utils-strings';
+import { calculate } from './calculator';
 
-  return j; // This is not allowed, as j was declared inside a different scope
+export function printReceipt(items) {
+  let {total, totalTax} = calculate({ items });
+
+  return strip`
+    ${items.map(item => item.price).join('\n')}
+    ${'-'.repeat(30)}
+    Sub-Total: ${total}
+    ${'='.repeat(30)}
+    Tax: ${totalTax}
+    ${'='.repeat(30)}
+    Total: ${total + totalTax}
+  `;
 }
 ```
 
-Taking this one step farther, we can do something like this:
+That's it! So what's happening here? The first thing we did was calculate the
+total price and total tax using our calculate function, and assigned the values
+to `total` and `totalTax` variables using destructuring. Then we used our custom
+template literal called `strip` to print out our receipt! We also snuck in
+another new ES2015 feature: `String.prototype.repeat`. It does exactly what you
+think it does, repeat the string the number of times you specify in the argument!
+Let's try this out in the console:
 
-```js
-let j = 0;
-
-function foo() {
-  for (let i = 0; i < 3; i++) {
-    j += i;
-  }
-}
-
-foo()
-console.log(j)
--> 6
+```bash
+$ babel-node
+> var { items } = require('./calculator')
+> var { printReceipt } = require('./printer')
+> console.log(printReceipt(items))
+->
+10
+22
+13.45
+------------------------------
+Sub-Total: 45.45
+==============================
+Tax: 1.876
+==============================
+Total: 47.326
 ```
-
-This isn't very good programming practice, but it clearly demonstrates how
-nested scoping works. The `j` variable is available in all child scopes.
-
-## Scoping with switch statements
-
-Scoping also applies to switch statements. Adding curly braces to your `case`
-statements will encapsulate them in their own scope.
-
-```js
-const i = 0;
-
-switch (i) {
-  case 0:
-    const label = 'zero';
-    console.log(label);
-    break;
-  case 1:
-    const label = 'one';
-    console.log(label);
-    break;
-}
-```
-
-This will throw an error because you are attempting to define the `label`
-const twice inside of the same scope.  However, if we rewrite that like this:
-
-```js
-const i = 0;
-
-switch (i) {
-  case 0: {
-    const label = 'zero';
-    console.log(label);
-    break;
-  }
-  case 1: {
-    const label = 'one';
-    console.log(label);
-    break;
-  }
-}
-```
-
-This is perfectly acceptable, because we have created an isolated scope for
-each case statement.
-
-## Wrapping up
-
-Anything inside curly braces ({}) is considered to be inside of a block, and
-you can create a block all by itself:
-
-```js
-{
-  // This is inside of an isolated block scope
-  let foo = 1;
-}
-
-console.log(foo); // `foo` is undefined in this scope
-```
-
-Constants behave in exactly the same way as `let` when it comes to scoping.
-It is for this reason that it is preferred to use `const` and `let` over `var`
-as often as possible.
 
 ## Moving on
-Easy! Block scoped variables are a simple concept, and using the right type
-of variable declarations is crucial to writing good, clean code. Let's move
-on and discuss block scoped functions!
+Template literals are awesome! Let's move on now and find out what this wacky
+new syntax called arrow functions are!
