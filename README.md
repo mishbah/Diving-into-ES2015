@@ -10,7 +10,7 @@ great choices out there:
   * [Sublime Text](https://www.sublimetext.com/) - Anouther great choice, similar to Atom, but not 100% free
   * [Webstorm](https://www.jetbrains.com/webstorm/) - A full blown JavaScript IDE, but it comes at a price.
 
-THe most important thing here is that you use a text editor that you are
+The most important thing here is that you use a text editor that you are
 comfortable with.
 
 ## Node and npm
@@ -65,20 +65,21 @@ installed the Babel CLI. If you're able to type in `babel-node` without any
 errors you're ready to move on and start writing some ES2015 code!
 
 In order to use all of the ES2015 features available to us, we're going to
-need to install the ES2015 presets module. Let's go ahead and create a directory
-where we can store all of our code samples from this course. After creating
-the directory, we'll install the babel presets module:
+need to install the ES2015 presets module and the Stage 2 presets module.
+Let's go ahead and create a directory where we can store all of our code samples
+from this course. After creating the directory, we'll install the babel
+presets module:
 
 ```bash
 $ mkdir diving-into-es2015
 $ cd diving-into-es2015
-$ npm install babel-preset-es2015
+$ npm install babel-preset-es2015 babel-preset-stage-2
 ```
 
 We could include these presets every time we start the REPL like this:
 
 ```bash
-$ babel-node --presets es2015
+$ babel-node --presets es2015 stage-2
 ```
 
 But it's much easier to create a `.babelrc` file to handle this for us! A `.babelrc`
@@ -88,7 +89,8 @@ go ahead and do that in the root of your code directory that we created.
 ```json
 {
   presets: [
-    'es2015'
+    'es2015',
+    'stage-2'
   ]
 }
 ```
