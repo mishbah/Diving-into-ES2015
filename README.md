@@ -8,14 +8,10 @@ receipt, so let's go ahead and make a new file called `utils-strings.js` and
 paste in the strip function:
 
 ```js
-export function strip(pieces, ...value) {
-  let str = '';
-  pieces.forEach(function(piece, index) {
-    let val = value[index] || '';
-    str += piece + val;
-  })
-  return str.replace(/^\s*/gm, '');
-}
+export const strip = (pieces, ...values) =>
+  pieces
+    .reduce((concatStr, piece, indx) => `${concatStr}${piece}${values[indx] || ''}`, '')
+    .replace(/^\s*/gm, '');
 ```
 
 Ok great! Now it's as simple as importing the modules we need and creating
