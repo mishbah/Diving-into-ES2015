@@ -1,4 +1,4 @@
-# Lesson 6.3 - Block Scoped Functions
+# Lesson 3.3 - Block Scoped Functions
 
 Block scoped functions work very much the same way that block scoped variables
 do. You mave have seen the widely used IIFE (Immediately Invoked Function Expression)
