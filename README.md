@@ -31,7 +31,7 @@ inner workings of our class at the instance level. Let's look at it in action:
 -> 'Dodge'
 ```
 
-Cool! Let's check out how we can access the base class when using inheritance.
+Cool! Let's check out how we can access the superclass when using inheritance.
 
 Imagine we have the `Truck` class from the last lesson, and we want to add the
 `drive` variable to the `print` method. We can do that pretty easily like this:
@@ -42,12 +42,10 @@ print() {
 }
 ```
 
-What we did there was access the base class with the `super` keyword, and then
-call the `print` method from the base class. We used string interpolation to
+What we did there was access the superclass with the `super` keyword, and then
+call the `print` method from the superclass. We used string interpolation to
 add this to a new string that includes whether the vehicle is 2WD or 4WD.
-That's pretty cool! But again, beware of using this too much, because it
-does tightly couple the implementation of the `Truck` class to the implementation
-of the `Vehicle` class.
+That's pretty cool!
 
 ## Moving on
 We're moving right along! Let's finish up by talking about how to use static
