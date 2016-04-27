@@ -43,20 +43,7 @@ class Foo {
 This is a nicer looking syntax, but doesn't offer anything extra in the
 way of functionality. It simply gives us a much nicer way to implement classes
 and class inheritance like other programming languages that already have this
-functionality. This looks a lot like how classes and inheritance is implemented
-in Ruby:
-
-```ruby
-class Foo
-  def initialize(x)
-    @x = x
-  end
-
-  def add(y)
-    @x + y
-  end
-end
-```
+functionality.
 
 ## Moving on
 That's it for the introduction to classes! Let's move on to the next lesson
