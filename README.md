@@ -17,7 +17,7 @@ useful. Let's add a constructor:
 ```js
 class Vehicle {
   constructor(make, model, year) {
-    Object.assign(this, { make, model, year })
+    Object.assign(this, { make, model, year });
   }
 }
 ```
@@ -36,9 +36,7 @@ method to the class that make it a bit more useful:
 ```js
 class Vehicle {
   constructor(make, model, year) {
-    this.make = make
-    this.model = model
-    this.year = year
+    Object.assign(this, { make, model, year });
   }
 
   print() {
@@ -58,9 +56,9 @@ from the instance of the class:
 
 ## Inheritance
 
-The introduction of inheritance along with the `class` keyword is very hotly
-contested, and for good reason. With inheritance, you can make a class `extend`
-another class, and thus inheriting all of it's properties. Let's take a look:
+ES2015 introduced class inheritance along with the `class` keyword.
+With inheritance, you can make a class `extend` another class, and thus
+inheriting all of it's properties. Let's take a look:
 
 ```js
 class Truck extends Vehicle {
@@ -72,8 +70,22 @@ class Truck extends Vehicle {
 ```
 
 What you see here is that we've created a new class called `Truck` that inherits
-from `Vehicle`. It will act in the same way as a `Vehicle` class, but requires
-once extra parameter during initialization.
+from `Vehicle`. The `Vehicle` class here is known as the base class. It is called
+a base class because it does not inherit from any other class. Conversely, when
+referring to the `Vehicle` class from the perspective of the `Truck` class, it
+is know as the superclass. It is the prototype of the `Truck` class. Let's look
+at this in the REPL:
+
+```bash
+> Object.getPrototypeOf(Truck)
+-> Vehicle
+```
+
+You can see here that the prototype of the `Truck` class is the `Vehicle` class.
+`Vehicle` is the superclass of `Truck`. 
+
+The `Truck` class will act in the same way as a `Vehicle` class, but requires
+one extra parameter during initialization.
 
 ```bash
 > var truck = new Truck('Dodge', 'Ram', 2016, '4WD')
@@ -81,17 +93,9 @@ once extra parameter during initialization.
 -> 2016 Dodge Ram
 ```
 
-So what have we gained by using inheritance? Not much, just the reuse of the
-parent classes functions and constructor. But this approach tightly couples
-the child class to the parent class. You'll also notice that in the constructor
-of the `Truck` class I used the `super` keyword. What this does is invoke the
-parent classes constructor method with the variables you pass into it. As you
-can imagine, this can end up being a difficult thing to debug, and the child
-class is forced to conform entirely to the interface that the parent class
-has defined.
-
-While class inheritance can be used safely, it is wise to use it in moderation
-with a sprinkle here and there.
+You'll notice that in the constructor of the `Truck` class I used the `super` 
+keyword. What this does is invoke the parent class' constructor method with the 
+variables you pass into it.
 
 Now that we know how to create a class, let's convert all the code we have
 been writing for our tax calculator and receipt printer over to a class
@@ -103,24 +107,23 @@ import { strip } from './strings'
 
 export default class Calculator {
   constructor(items = [], taxRate = 8) {
-    this.items = items
-    this.taxRate = taxRate
+    Object.assign(this, { items, taxRate });
   }
 
-  calculateTax(item) {
-    if (!item.taxable) return 0
-    return item.price * this.taxRate / 100
+  calculateTax({ isTaxable, price }) {
+    if (!isTaxable) return 0
+    return price * this.taxRate / 100
   }
 
   calculate() {
-    let total = 0, totalTax = 0
-
-    this.items.forEach(item => {
-      total += item.price
-      totalTax += this.calculateTax(item)
-    })
-
-    return {total, totalTax}
+    return this.items.reduce((prev, curr) => {
+      prev.total += curr.price;
+      prev.totalTax += this.calculateTax(curr);
+      return prev;
+    }, {
+      total: 0,
+      totalTax: 0
+    });
   }
 
   printReceipt() {
@@ -146,7 +149,7 @@ Cool! Now we can do this:
 > var Calculator = require('./calculator').default
 > var calculator = new Calculator(items)
 > calculator.calculate()
--> [ 45.45, 1.876 ]
+-> { total: 45.45, totalTax: 1.876 }
 > calculator.printReceipt()
 ->
 10
