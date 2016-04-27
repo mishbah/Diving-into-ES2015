@@ -1,39 +1,31 @@
-# Lesson 7.4 - Static Members
+# Lesson 8.1 - Wrapping Up
 
-The last thing we're going to talk about with regards to classes is static
-members. Static members allow you to create methods on a class that are not
-bound to any instance of the class. Let's look at a `Rectangle` class for
-instance:
+Thanks for joining me on our journey through the basics of ES2015! We learned
+about the new module system, new types of variables and how they are scoped,
+arrow functions, parameter handling and destructuring, template string, and
+classes, oh my!
 
-```js
-class Rectangle {
-  constructor(width, length) {
-    Object.assign(this, { width, length });
-  }
+While we did cover quite a bit of ground in this class, there are even more
+features that we did not cover. Things such as generator functions, maps and
+sets, promises and proxying.
 
-  static square(width) {
-    return new Rectangle(width, width);
-  };
-}
-```
+Now that you have the basics covered, just follow some of the links below
+to get started on trying out some of the other features that ES2015 has to offer.
 
-That's interesting! Let's see this in action!
+Thanks again for joining me on this journey, and have fun using ES2015!
 
-```bash
-> var square = Rectangle.square(10)
-> square.width
--> 10
-> square.length
--> 10
-```
+## Resources
+* [ES2015 Features](http://es6-features.org/)
+* [Iterators and Generators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators)
+* [Maps](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map)
+* [Sets](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set)
+* [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+* [Proxying](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)
 
-As you can see, we were able to call the `square` method on the `Rectangle`
-class without creating a new instance of it. This is useful for situtations
-like we showed above, and also just for wrapping up code that is relevant to
-a specific class, but doesn't rely on any instance properties of the class to
-be useful.
-
-## Moving on
-That's it for classes, and that's it for the Diving Into ES2015 course! Thanks
-for joining me, and you are now ready to dive into ES2015 and use all of the
-great new features it has to offer!
+## Articles
+* [ES2015 Generators](https://davidwalsh.name/es6-generators)
+* [The Definitive Guide to the Javascript Generators](http://gajus.com/blog/2/the-definitive-guide-to-the-javascript-generators)
+* [An Introduction to ES2015 Iterators](https://strongloop.com/strongblog/introduction-to-es6-iterators/)
+* [Javascript Iterables and Iterators](http://jsrocks.org/2015/09/javascript-iterables-and-iterators/)
+* [Promises](https://davidwalsh.name/promises)
+* [ES2015 Proxies](http://www.2ality.com/2014/12/es6-proxies.html)
