@@ -34,7 +34,10 @@ export function add(x, y) {
 export const foo = 1;
 ```
 
-Requiring this module in another file will give you an object:
+Requiring this module in another file will give you an immutable binding. This 
+differs from CommonJS to make your code more deterministic and circular dependencies 
+easier to work with. A transpiler can only do so much so for our purposes the exported 
+binding will look like an object literal like this:
 
 ```js
 {
