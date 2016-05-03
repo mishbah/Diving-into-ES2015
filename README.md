@@ -7,7 +7,7 @@ some of the code samples. These days I prefer Vim, but there are a lot of
 great choices out there:
 
   * [Atom](https://atom.io/) - A great free choice built by GitHub
-  * [Sublime Text](https://www.sublimetext.com/) - Anouther great choice, similar to Atom, but not 100% free
+  * [Sublime Text](https://www.sublimetext.com/) - Another great choice, similar to Atom, but not 100% free
   * [Webstorm](https://www.jetbrains.com/webstorm/) - A full blown JavaScript IDE, but it comes at a price.
 
 The most important thing here is that you use a text editor that you are
@@ -87,8 +87,8 @@ go ahead and do that in the root of your code directory that we created.
 
 ```json
 {
-  presets: [
-    'es2015'
+  "presets": [
+    "es2015"
   ]
 }
 ```
