@@ -1,6 +1,6 @@
 # Lesson 7.1 - Introducing Classes
 
-A great new feature in ES2015 is the brand new `class` keyword.
+A great feature in ES2015 is the brand new `class` keyword.
 Classes are not baked into ES2015, but rather, are just some syntactic sugar
 over a pattern that is well established in the JavaScript community.
 
