@@ -17,9 +17,7 @@ useful. Let's add a constructor:
 ```js
 class Vehicle {
   constructor(make, model, year) {
-    this.make = make
-    this.model = model
-    this.year = year
+    Object.assign(this, { make, model, year })
   }
 }
 ```
@@ -38,13 +36,11 @@ method to the class that make it a bit more useful:
 ```js
 class Vehicle {
   constructor(make, model, year) {
-    this.make = make
-    this.model = model
-    this.year = year
+    Object.assign(this, { make, model, year })
   }
 
   print() {
-    return `${year} ${make} ${model`
+    return `${year} ${make} ${model}`
   }
 }
 ```
@@ -75,7 +71,7 @@ class Truck extends Vehicle {
 
 What you see here is that we've created a new class called `Truck` that inherits
 from `Vehicle`. It will act in the same way as a `Vehicle` class, but requires
-once extra parameter during initialization.
+one extra parameter during initialization.
 
 ```bash
 > var truck = new Truck('Dodge', 'Ram', 2016, '4WD')
