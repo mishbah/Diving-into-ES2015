@@ -38,5 +38,3 @@ be useful.
 That's it for classes, and that's it for the Diving Into ES2015 course! Thanks
 for joining me, and you are now ready to dive into ES2015 and use all of the
 great new features it has to offer!
-
-TODO - list out the great features not covered with a short synopsis?
