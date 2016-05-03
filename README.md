@@ -46,7 +46,7 @@ function foo() {
 ```
 
 In this example, the returned function has access to the `bar` variable because
-it was declared in the outer scope. The functioned that is returned from the
+it was declared in the outer scope. The function that is returned from the
 `foo` function has access to all variables declared in the scope of the `foo`
 function.
 
