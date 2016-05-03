@@ -1,9 +1,8 @@
 # Diving into ES2015 - Introduction
 
 Hello, my name is Darin Haener and I'll be helping you dive in and get familiar
-with the new JavaScript specification, called ES2015. The specification for
-ES2015 was ratified in June of 2015, and is currently being implemented in
-browsers.
+with the new JavaScript specification, called ES2015. The specification was ratified 
+in June of 2015, and is currently being implemented in browsers.
 
 In this course we'll be covering new features such as parameter destructuring,
 template strings, arrow functions, and classes. Some of these new features
