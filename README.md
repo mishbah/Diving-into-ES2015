@@ -2,7 +2,7 @@
 
 When working in JavaScript, the lexical scoping of `this` often causes a lot
 of problems with newer developers (and seasoned veterans at times). Lexical
-this can be described in this way. Every new function defines it's on `this`
+this can be described in this way. Every new function defines it's own `this`
 value, so when you want to reference a `this` that is outside of the scope of
 the function you have to use some tricks like assigning another variable to
 the value of `this` that you want to reference in a function.
