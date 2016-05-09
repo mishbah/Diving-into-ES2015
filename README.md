@@ -43,11 +43,7 @@ into a function:
 
 ```js
 function add(...numbers) {
-  let total = 0;
-  numbers.forEach(function(number) {
-    total += number;
-  })
-  return total;
+  return numbers.reduce((prev, curr) => prev + curr, 0);
 }
 ```
 
@@ -59,10 +55,7 @@ addition! This is very handy in a lot of cases.
 It also works when you have leading parameters:
 ```js
 function product(multiplier = 1, ...numbers) {
-  let total = 0;
-  numbers.forEach(function(number) {
-    total += number;
-  })
+  const total = numbers.reduce((prev, curr) => prev + curr, 0);
   return total * multiplier;
 }
 ```
