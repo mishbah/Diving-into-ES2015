@@ -70,8 +70,8 @@ where we can store all of our code samples from this course. After creating the
 directory, we'll install the babel presets module:
 
 ```bash
-$ mkdir diving-into-es2015
-$ cd diving-into-es2015
+$ mkdir es2015
+$ cd es2015
 $ npm install babel-preset-es2015
 ```
 
