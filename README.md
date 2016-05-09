@@ -88,6 +88,14 @@ We can then import both of these items like so:
 import { add, foo } from './my_math_module';
 ```
 
+## A word on destructuring
+
+This destructuring syntax: `{ add, foo }` may look a little strange to you, but
+don't worry! We will be convering this in detail in a later lesson. Essentially
+what is happening here is we are saying that we only want to import specfic
+pieces from the module. Here we are only importing the add function and the foo
+variable.
+
 ## More Advanced Module Syntax
 
 In addition to these basic statements, we can import and export in a few different
