@@ -91,6 +91,7 @@ export function calculate(taxRate, items) {
   return items.reduce((prev, curr) => {
     prev.total += curr.price;
     prev.totalTax += calculateTax(curr.price, taxRate, curr.isTaxable);
+    return prev;
   }, {
     total: 0,
     totalTax: 0
