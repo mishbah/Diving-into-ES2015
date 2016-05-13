@@ -26,5 +26,4 @@ languages that have always supported block scoping, and makes controlling
 the scope of variables and functions much, much easier.
 
 ## Moving on
-This was an easy section! Let's move on to learn about ES2015 classes and put
-all of our work together into some class based code!
+This was an easy section! Let's move on to learn about arrow functions in ES2015.
