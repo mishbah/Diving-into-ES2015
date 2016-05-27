@@ -52,4 +52,5 @@ import { calculateTax } from './math';
 ```
 
 ## Moving on
-We've come a long way already! Let's move on and learn all about parameters!
+We've come a long way already! Let's move on and learn all about variables
+and scoping.
