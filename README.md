@@ -48,7 +48,7 @@ function add(...numbers) {
 ```
 
 So what's going on there? Any time you declare a parameter in a function
-using the spread operator, it returns all of those parameters as an array.
+using binding identifiers, it returns all of those parameters as an array.
 We can then just iterate over the collection of params and perform our
 addition! This is very handy in a lot of cases.
 
