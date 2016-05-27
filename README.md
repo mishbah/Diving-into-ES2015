@@ -34,9 +34,9 @@ export function add(x, y) {
 export const foo = 1;
 ```
 
-Requiring this module in another file will give you an immutable binding. This 
-differs from CommonJS to make your code more deterministic and circular dependencies 
-easier to work with. A transpiler can only do so much so for our purposes the exported 
+Requiring this module in another file will give you an immutable binding. This
+differs from CommonJS to make your code more deterministic and circular dependencies
+easier to work with. A transpiler can only do so much so for our purposes the exported
 binding will look like an object literal like this:
 
 ```js
@@ -71,8 +71,8 @@ import add from './my_math_module';
 ```
 
 Now we will have the `add` function available in our file! It's that easy!
-You can also use some destructuring syntax to import multiple exports
-all at once. If we change our module back to it's original form like this:
+You can also use named imports to import multiple exports all at once. If we
+change our module back to it's original form like this:
 
 ```js
 export function add(x, y) {
@@ -90,7 +90,7 @@ import { add, foo } from './my_math_module';
 
 ## A word on destructuring
 
-This destructuring syntax: `{ add, foo }` may look a little strange to you, but
+This named import syntax: `{ add, foo }` may look a little strange to you, but
 don't worry! We will be convering this in detail in a later lesson. Essentially
 what is happening here is we are saying that we only want to import specfic
 pieces from the module. Here we are only importing the add function and the foo
