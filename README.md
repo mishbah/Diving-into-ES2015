@@ -19,7 +19,7 @@ export const items = [
   { price: 10, isTaxable: true },
   { price: 22, isTaxable: false },
   { price: 13.45, isTaxable: true }
-]
+];
 ```
 
 Great! We've set up a simple data structure here that holds a list of items
