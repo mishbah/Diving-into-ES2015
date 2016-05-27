@@ -69,7 +69,7 @@ let j = 0;
 
 function foo() {
   for (let i = 0; i < 3; i++) {
-    j += i;
+    j += 1;
   }
 }
 
