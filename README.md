@@ -1,3 +1,6 @@
+![](Diving_into_ES2015_handouts/headings/3.1.png) 
+
+
 # Lesson 3.1 - Constants and Let
 
 ES2015 introduced a new variable type: `const`. This new variable type should
