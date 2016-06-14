@@ -1,3 +1,5 @@
+![](Diving_into_ES2015_handouts/headings/7.4.png) 
+
 # Lesson 7.4 - Static Members
 
 The last thing we're going to talk about with regards to classes is static
