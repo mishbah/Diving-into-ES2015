@@ -1,3 +1,5 @@
+![](Diving_into_ES2015_handouts/headings/3.3.png) 
+
 # Lesson 3.3 - Block Scoped Functions
 
 Block scoped functions work very much the same way that block scoped variables
