@@ -1,3 +1,5 @@
+![](Diving_into_ES2015_handouts/headings/4.1.png) 
+
 # Lesson 4.1 - Arrow Functions
 
 When working in JavaScript, the lexical scoping of `this` often causes a lot
