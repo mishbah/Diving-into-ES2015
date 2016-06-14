@@ -1,3 +1,5 @@
+![](Diving_into_ES2015_handouts/headings/3.2.png) 
+
 # Lesson 3.2 - Block Scoped Variables
 
 Let's explore block scoped variables shall we? Block scoped variables are
