@@ -1,3 +1,5 @@
+![](Diving_into_ES2015_handouts/headings/6.1.png) 
+
 # Lesson 6.1 - New string functionality
 
 With ES2015 comes a powerful new feature to handle interpolation with strings. Generally, it is
