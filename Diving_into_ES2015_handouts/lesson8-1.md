@@ -1,18 +1,12 @@
-![](Diving_into_ES2015_handouts/headings/8.1.png) 
+![](headings/8.1.png)
 
 # Lesson 8.1 - Wrapping Up
 
-Thanks for joining me on our journey through the basics of ES2015! We learned
-about the new module system, new types of variables and how they are scoped,
-arrow functions, parameter handling and destructuring, template string, and
-classes, oh my!
+Thanks for joining me on our journey through the basics of ES2015! We learned about the new module system, new types of variables and how they are scoped, arrow functions, parameter handling and destructuring, template string, and classes, oh my!
 
-While we did cover quite a bit of ground in this class, there are even more
-features that we did not cover. Things such as generator functions, maps and
-sets, promises and proxying.
+While we did cover quite a bit of ground in this class, there are even more features that we did not cover. Things such as generator functions, maps and sets, promises and proxying.
 
-Now that you have the basics covered, just follow some of the links below
-to get started on trying out some of the other features that ES2015 has to offer.
+Now that you have the basics covered, just follow some of the links below to get started on trying out some of the other features that ES2015 has to offer.
 
 Thanks again for joining me on this journey, and have fun using ES2015!
 
