@@ -1,3 +1,5 @@
+![](Diving_into_ES2015_handouts/headings/7.1.png) 
+
 # Lesson 7.1 - Introducing Classes
 
 A great feature in ES2015 is the brand new `class` keyword.
