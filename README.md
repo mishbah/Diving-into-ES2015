@@ -1,3 +1,6 @@
+![](Diving_into_ES2015_handouts/headings/4.2.png) 
+
+
 # Lesson 4.2 - Arrow Functions Everywhere
 
 So far in this lesson we have learned a bit about how arrow functions work.
