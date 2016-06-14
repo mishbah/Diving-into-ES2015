@@ -1,3 +1,5 @@
+![](Diving_into_ES2015_handouts/headings/7.2.png) 
+
 # Lesson 7.2 - Class Definition and Inheritance
 
 Let's discuss how to define classes, and how ES2015 introduces class inheritance
