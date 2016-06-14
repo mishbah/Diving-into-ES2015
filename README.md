@@ -1,4 +1,4 @@
-![](headings/2.1.png)
+![](Diving_into_ES2015_handouts/headings/2.1.png)
 
 # Lesson 2.1 - Introducing Modules
 
