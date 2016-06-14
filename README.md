@@ -1,3 +1,5 @@
+![](Diving_into_ES2015_handouts/headings/5.3.png) 
+
 # Lesson 5.3 - Parameter Handling in the Real World
 
 So far in this lesson we have learned some great new ES2015 features that
