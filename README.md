@@ -1,3 +1,5 @@
+![](Diving_into_ES2015_handouts/headings/6.2.png) 
+
 # Lesson 6.2 - Receipt Printer
 
 Now that we know all about template literals, let's put them to use and create
