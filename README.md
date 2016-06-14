@@ -1,3 +1,5 @@
+![](Diving_into_ES2015_handouts/headings/2.2.png) 
+
 # Lesson 2.2 - How to use modules
 
 In the last lesson we ran through all the different ways to import and export
