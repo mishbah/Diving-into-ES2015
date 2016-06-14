@@ -1,3 +1,5 @@
+![](Diving_into_ES2015_handouts/headings/5.1.png) 
+
 # Lesson 5.1 - Destructuring Assignment
 
 ES2015 comes with a brand new way to assign variables when dealing with arrays
