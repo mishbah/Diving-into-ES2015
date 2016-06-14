@@ -1,3 +1,5 @@
+![](Diving_into_ES2015_handouts/headings/5.2.png) 
+
 # Lesson 5.2 - Parameter Handling
 
 We're not done with the great new features that ES2015 has when it comes to
