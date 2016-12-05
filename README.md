@@ -16,7 +16,7 @@ Can now be encapsulated like this:
 
 ```js
 {
-  function foo() { return 'bar' }
+  let foo = function() { return 'bar' }
 }
 ```
 
