@@ -42,7 +42,7 @@ export function calculateTax({ price, taxRate, taxable }) {
 export function calculate({ taxRate = 8, items = [] }) {
   return items.reduce((prev, curr) => {
     prev.total += curr.price;
-    prev.totalTax += calculateTax({ taxRate, ...curr });
+    prev.totalTax += calculateTax({ price: curr.price, taxRate, isTaxable: curr.isTaxable });
     return prev;
   }, {
     total: 0,
